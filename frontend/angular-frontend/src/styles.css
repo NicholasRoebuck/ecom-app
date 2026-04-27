@@ -85,7 +85,8 @@ h6{
 }
 
 a{
-    display:inline-block
+    display:inline-block;
+    text-decoration: none;
 }
 
 a:active,a:focus,a:hover{
@@ -135,7 +136,7 @@ aside.menu-sidebar.d-none.d-lg-block.clr{
  */
 
 .header-desktop{
-    background:#0da8e4;
+    background:#000000;
     -webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,.1);
     -moz-box-shadow:0 2px 5px 0 rgba(0,0,0,.1);
     box-shadow:0 2px 5px 0 rgba(0,0,0,.1);
@@ -723,6 +724,11 @@ table.table.table-bordered th{
 .detail-section{
     margin-top:60px
 }
+
+.detail-img{
+    width: 30%;
+}
+
 /**/
 
 /* 

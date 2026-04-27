@@ -14,6 +14,39 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getProduct(productId: number): Observable<Product> {
+
+    // build url based on product id
+
+    const productUrl = `${this.baseUrl}/${productId}`
+
+    return this.httpClient.get<Product>(productUrl);
+  }
+
+  getProductListPaginate(page: number, pageSize: number, categoryId: number): Observable<GetResponseProducts> {
+
+    // build URL based on category id
+
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
+
+  searchProducts(keyword: string): Observable<Product[]> {
+    // build URL based on name containing keyword
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+
+    return this.getProducts(searchUrl);
+  }
+
+  searchProductsPaginate(page: number, pageSize: number, keyword: string): Observable<GetResponseProducts> {
+
+    // build URL based on keyword
+
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
 
   getProductList(categoryId: number): Observable<Product[]> {
 
@@ -21,6 +54,10 @@ export class ProductService {
 
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
 
+    return this.getProducts(searchUrl);
+  }
+
+  private getProducts(searchUrl: string): Observable<Product[]> {
     return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(map(res => res._embedded.products));
   }
 
@@ -29,14 +66,20 @@ export class ProductService {
   }
 }
 
-interface GetResponseProducts{
+interface GetResponseProducts {
   _embedded: {
-    products: Product[];    
+    products: Product[];
+  },
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
   }
 }
 
-interface GetResponseProductCategory{
+interface GetResponseProductCategory {
   _embedded: {
-    productCategory: ProductCategory[];    
+    productCategory: ProductCategory[];
   }
 }
