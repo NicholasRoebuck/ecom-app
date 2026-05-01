@@ -1,16 +1,20 @@
 <div class="detail-section">
 
     <div class="container-fluid">
-        
-        <img src="{{ product.imageUrl }}" class="detail-img">
 
-        <h3> {{ product.name }}</h3>
-        <div class="price"> {{ product.unitPrice  | currency:'USD'}} </div>
-        <a href="#" class="primary-btn">Add to cart</a>
+        <!-- there is type error for the undefined product property in my product-details.ts file.-->
+         <!-- i think this is due to a race condition-->
+        <!-- working on a permanent solution for this bug, but for now i'm using *ngIf statments to prevent the browser console log errors -->
+        
+        <img *ngIf="product" src="{{ product.imageUrl }}" class="detail-img">
+
+        <h3 *ngIf="product"> {{ product.name }}</h3>
+        <div *ngIf="product" class="price"> {{ product.unitPrice  | currency:'USD'}} </div>
+        <button (click)="addTocart()" class="btn btn-primary btn-sm">Add to cart</button>
 
         <hr>
         <h4>Description</h4>
-        <p>{{ product.description}}</p>
+        <p *ngIf="product">{{ product.description}}</p>
 
         <a routerLink="/products/" class="mt-5">Return to product list</a>
 

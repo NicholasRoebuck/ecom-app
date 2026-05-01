@@ -3,6 +3,8 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../common/product';
 import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from '../../common/cart-item';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +27,8 @@ export class ProductListComponent implements OnInit {
 
 
   constructor(private productService: ProductService,
-    private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -117,5 +120,8 @@ export class ProductListComponent implements OnInit {
     console.log(`product=${product.name} & product price=${product.unitPrice}`);
 
     // TODO: handle the click
+    const theCartItem = new CartItem(product);
+    
+    this.cartService.addToCart(theCartItem);
   }
 }
