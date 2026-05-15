@@ -516,7 +516,7 @@ input.au-input.au-input-xl{
     background:#fff
 }
 .main-content.page-m{
-    padding:10% 15%!important
+    padding:10% 30% 10% 5% 
 }
 
 /* 
@@ -623,6 +623,8 @@ input.au-input.au-input-xl{
     opacity:0;
     cursor:pointer
 }
+
+
 .au-checkmark{
     position:absolute;
     top:0;
