@@ -12,8 +12,23 @@ export class CartService implements OnInit {
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
+  // storage: Storage = sessionStorage; // session storage persists data the browser session (if you close the window, it does not save)
+  storage: Storage = localStorage; // local storage persists the data  even when the user closes the window
 
-  constructor() { }
+
+  constructor() {
+
+    // read data from storage
+    let data = JSON.parse(this.storage.getItem('cartItems'));
+
+    if (data != null){
+      this.cartItems = data;
+    }
+
+    // compute total based on data read from storage
+    this.computeCartTotals();
+
+   }
 
   ngOnInit(): void {
     
@@ -62,6 +77,9 @@ export class CartService implements OnInit {
 
     // log cart data for debugging
     this.logCartData(totalPriceValue, totalQuantityValue);
+
+    // persist cart data
+    this.persistCartItems();
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
@@ -95,5 +113,10 @@ export class CartService implements OnInit {
       this.cartItems.splice(index, 1);
       this.computeCartTotals();
     }
+  }
+
+  persistCartItems(){
+    this.storage.setItem('cartItems', JSON.stringify(this.cartItems))
+
   }
 }
