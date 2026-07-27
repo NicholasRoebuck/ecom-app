@@ -1,24 +1,32 @@
 package com.nickcoding.spring_boot_website.service;
 
 import com.nickcoding.spring_boot_website.dao.CustomerRepository;
+import com.nickcoding.spring_boot_website.dao.PaymentInfo;
 import com.nickcoding.spring_boot_website.dto.Purchase;
 import com.nickcoding.spring_boot_website.dto.PurchaseResponse;
 import com.nickcoding.spring_boot_website.entity.Customer;
 import com.nickcoding.spring_boot_website.entity.Order;
 import com.nickcoding.spring_boot_website.entity.OrderItem;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
 
     private CustomerRepository customerRepository;
 
-    public CheckoutServiceImpl(CustomerRepository customerRepository){
+    public CheckoutServiceImpl(CustomerRepository customerRepository,
+                               @Value("${stripe.key.secret}") String secretKey){
         this.customerRepository = customerRepository;
+
+        // initialize stripe api key
+        Stripe.apiKey = secretKey;
     }
 
     @Override
@@ -59,6 +67,23 @@ public class CheckoutServiceImpl implements CheckoutService{
 
         // return a response
         return new PurchaseResponse(orderTrackingNumber);
+    }
+
+    @Override
+    public PaymentIntent createPaymentIntent(PaymentInfo paymentInfo) throws StripeException {
+
+        // this is the type of payment method. card (credit card) is just one type, you can also set up debit card
+        List<String> paymentMethodTypes = new ArrayList<>();
+        paymentMethodTypes.add("card");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("amount", paymentInfo.getAmount());
+        params.put("currency", paymentInfo.getCurrency());
+        params.put("payment_method_types", paymentMethodTypes);
+        params.put("description", "Premear purchase");
+        params.put("receipt_email", paymentInfo.getReceiptEmail());
+
+        return PaymentIntent.create(params);
     }
 
     private String generateOrderTrackingNumber() {

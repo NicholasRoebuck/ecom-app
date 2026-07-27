@@ -11,10 +11,12 @@ import { CartService } from '../../services/cart.service';
 export class LoginStatusComponent {
   isAuthenticated: boolean = false;
   profileJson: string | undefined;
-  userEmail: string | undefined;
+  // userEmail: string | undefined;
+  userEmail: string | null;
+
   storage: Storage = sessionStorage;
 
-  constructor(private auth: AuthService, @Inject(DOCUMENT) private doc: Document, private cartService: CartService) {}
+  constructor(private auth: AuthService, @Inject(DOCUMENT) private doc: Document, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe((authenticated: boolean) => {
@@ -23,9 +25,18 @@ export class LoginStatusComponent {
     });
 
     this.auth.user$.subscribe((user) => {
-      this.userEmail = user?.email;
-      this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
-      console.log('User ID: ', this.userEmail);
+      
+
+      // the fix
+      if (user?.email) {
+        this.userEmail = user?.email;
+        this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
+        console.log('User ID: ', this.userEmail);
+      }
+
+      // this.userEmail = user?.email;
+      // this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
+      // console.log('User ID: ', this.userEmail);
     });
   }
 
@@ -36,6 +47,7 @@ export class LoginStatusComponent {
 
   logout(): void {
     this.cartService.clearCart();
+    this.storage.removeItem('userEmail');
     this.auth.logout({ logoutParams: { returnTo: this.doc.location.origin } });
   }
 }
