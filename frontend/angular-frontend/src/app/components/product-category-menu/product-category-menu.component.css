@@ -1,0 +1,22 @@
+.product-categoryies-header {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.product-categoryies-header > div {
+    margin-bottom: 16px;
+}
+
+.product-categoryies-header > div:last-child {
+    margin-bottom: 0;
+}
+a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+a:hover {
+    color: forestgreen;
+}

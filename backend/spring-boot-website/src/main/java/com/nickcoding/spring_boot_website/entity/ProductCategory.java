@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,5 +25,12 @@ public class ProductCategory {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Set<Product> products;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private ProductCategory parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductCategory> children = new ArrayList<>();
 
 }

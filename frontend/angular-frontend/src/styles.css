@@ -1,9 +1,16 @@
+/* tailwind css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 /* You can add global styles to this file, and also import other style files */
 /* 
  * ----------------------------
  * Common CSS
  * ----------------------------
  */
+
 
  *{
     margin:0;
@@ -107,15 +114,11 @@ a,a:hover{
 }
 
 .page-wrapper{
-    overflow:hidden;
     background:#e5e5e5;
     padding-bottom:8vh
 }
 
-.page-container{
-    background:#e5e5e5;
-    padding-left:200px
-}
+
 
 .main-content{
     padding-top:116px;
@@ -216,7 +219,7 @@ section{
 }
 
 .au-input-xl{
-    min-width:500px
+    min-width:300px
 }
 
 input.au-input.au-input-xl{
@@ -847,11 +850,7 @@ footer ul li{
      .section-content-p30{
         padding:0
     }
-    .page-container{
-        position:relative;
-        top:88px;
-        padding-left:0
-    }
+    
      .page-wrapper{
         background:#e5e5e5;
         padding-bottom:12vh
@@ -985,11 +984,7 @@ footer ul li{
     .product-box{
         text-align:centerg
     }
-    .page-container{
-        position:relative;
-        top:66px;
-        padding-left:0
-    }
+    
     .au-btn-submit{
         position:relative;
         right:10px;
@@ -1044,3 +1039,6 @@ footer ul li{
         padding:8px 0
     }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

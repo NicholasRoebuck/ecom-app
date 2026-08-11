@@ -22,6 +22,9 @@ import myAppConfig from './config/my-app-config';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { HomeComponent } from './components/home/home.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 
 function sendToLoginPage(auth: AuthGuard, injector: Injector){
   // use injector to access any service within your application
@@ -41,6 +44,7 @@ const routes: Routes = [
   {path: 'category/:id', component: ProductListComponent},
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
+  {path: 'home', component: HomeComponent},
   {path: '', redirectTo:'/products', pathMatch:'full'},
   {path: '**', redirectTo:'/products', pathMatch:'full'}
 ]
@@ -58,6 +62,7 @@ const routes: Routes = [
     LoginStatusComponent,
     MembersPageComponent,
     OrderHistoryComponent,
+    HomeComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -80,6 +85,7 @@ const routes: Routes = [
       useClass: AuthInterceptorService,
       multi: true,
     },
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })
