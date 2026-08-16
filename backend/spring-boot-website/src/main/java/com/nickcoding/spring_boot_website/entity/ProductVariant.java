@@ -3,29 +3,29 @@ package com.nickcoding.spring_boot_website.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
+@Table(name = "product_variant")
 @Entity
 public class ProductVariant {
 
-    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "sku")
     private String sku;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
 
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
@@ -39,6 +39,11 @@ public class ProductVariant {
     @Column(name = "units_in_stock")
     private int unitsInStock;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    List<Product> products = new ArrayList<>();
+    @CreationTimestamp
+    @Column(name = "date_created")
+    private Date dateCreated;
+
+    @UpdateTimestamp
+    @Column(name = "last_updated")
+    private Date lastUpdated;
 }

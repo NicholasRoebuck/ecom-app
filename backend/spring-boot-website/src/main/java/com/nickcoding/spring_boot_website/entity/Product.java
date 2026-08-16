@@ -6,10 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="product")
+@Table(name = "product")
 @Data
 public class Product {
 
@@ -25,6 +27,12 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductVariant> variants = new ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "date_created")
     private Date dateCreated;
@@ -32,6 +40,4 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "last_updated")
     private Date lastUpdated;
-
-
 }
