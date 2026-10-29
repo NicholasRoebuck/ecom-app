@@ -14,7 +14,6 @@
     padding: 0;
     height: 100%;
     background: var(--ink);
-    font-family: 'Inter', sans-serif;
   }
 
   .main-content {
@@ -38,7 +37,6 @@
   }
 
   h1 {
-    font-family: 'Fraunces', serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-size: clamp(2.2rem, 5vw, 3.4rem);
@@ -145,7 +143,6 @@
   }
 
   .panel-label h2 {
-    font-family: 'Fraunces', serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-size: 1.9rem;

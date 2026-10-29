@@ -1,67 +1,42 @@
 <div class="page-wrapper">
-  <!-- PAGE CONTAINER-->
-  
   <div class="h-11 bg-gray-100 justify-end flex items-center px-4">
-      <a href="" class="no-underline text-black hover:text-gray-600">Contact Us</a>
-    </div>
-  
-  <div class="">
-    <!-- HEADER DESKTOP-->
-    <div class="sticky top-0 z-50">
-    <nav class=" h-16 w-full bg-gray-400 shadow-md  transition-shadow duration-300">
-      <div class="flex items-center h-full">
+    <a href="" class="no-underline text-black hover:text-gray-600">Contact Us</a>
+  </div>
 
-        <div>
-          <a routerLink="/home" class="text-gray-700 hover:text-blue-600 px-1.5">
-
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+  <nav class="site-navbar h-16 w-full bg-white text-black"
+       [class.scrolled]="isScrolled">
+      <div class="site-navbar-content flex items-center h-full">
+        <div class="nav-home">
+          <a routerLink="/home" class="text-black hover:text-black px-1.5 ml-5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="currentColor" class="size-8">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
             </svg>
-
           </a>
         </div>
 
-        <div class="flex-1 px-6">
+        <div class="nav-search-categories flex items-center gap-12 px-6">
           <app-search></app-search>
-        </div>
-
-        <div class="w-1/2 pt-3">
           <app-product-category-menu></app-product-category-menu>
         </div>
 
-        <div class="flex items-center gap-6 px-4">
+        <div class="nav-account-actions flex items-center gap-6 px-4 ml-auto">
           <app-login-status></app-login-status>
           <app-cart-status></app-cart-status>
         </div>
-
       </div>
-    </nav>
+  </nav>
+
+  <div class="pt-4">
+    <div class="flex justify-center bg-black">
+      <img src="/assets/images/logo.png"
+           alt="Premear Hearing and Vision"
+           class="block w-[95%] md:w-3/4 max-w-4xl h-auto object-contain">
     </div>
-    <!-- Everything below the fixed navbar -->
-    <div class="p-4">
-
-      <!-- banner -->
-      <div>
-        <img src="/assets/images/products/placeholder.png" alt="">
-      </div>
-
-      <!-- 24px gap -->
-      <div class="h-6 items-center text-center"> here's the gap</div>
-    </div>
-
-    <!-- END HEADER DESKTOP-->
-
-    <!-- MAIN CONTENT-->
-
-    <router-outlet> </router-outlet>
-
   </div>
+
+  <router-outlet></router-outlet>
 </div>
-
-<!-- END PAGE CONTAINER-->
-
 
 <footer>
   <ul>

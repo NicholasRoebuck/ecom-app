@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-frontend';
+  isScrolled = false;
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    const isScrolled = window.scrollY > 6;
+    if (this.isScrolled !== isScrolled) {
+      this.isScrolled = isScrolled;
+    }
+  }
 }

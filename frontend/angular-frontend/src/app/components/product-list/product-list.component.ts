@@ -5,6 +5,8 @@ import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../common/cart-item';
 import { CartService } from '../../services/cart.service';
+import { getDisplayVariant } from '../../common/product-variant-utils';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -14,13 +16,14 @@ import { CartService } from '../../services/cart.service';
 export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
-  currentCategoryId: number = 1;
-  previousCategoryId: number = 1;
+  currentCategoryId: number | null = null;
+  previousCategoryId: number | null = null;
+  previousIncludeDescendants = false;
   searchMode: boolean = false;
 
   // properties for pagination
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 10;
   totalElements: number = 0;
 
   previousKeyword: string = "";
@@ -31,7 +34,7 @@ export class ProductListComponent implements OnInit {
               private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(() => {
+    combineLatest([this.route.paramMap, this.route.queryParamMap]).subscribe(() => {
       this.listProduct();
     });
   }
@@ -69,16 +72,9 @@ export class ProductListComponent implements OnInit {
   }
 
   handleListProducts() {
-    // check if "id" parameter is available
-
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has("id");
-
-    if (hasCategoryId) {
-      // get the category id and and convert it to a number
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
-    } else {
-      this.currentCategoryId = 1;
-    }
+    const categoryId = this.route.snapshot.paramMap.get('id');
+    this.currentCategoryId = categoryId === null ? null : +categoryId;
+    const includeDescendants = this.route.snapshot.queryParamMap.get('includeDescendants') === 'true';
 
     //
     // check if category id is different
@@ -87,17 +83,24 @@ export class ProductListComponent implements OnInit {
 
     // if there a different page category id than previous
     // set the pageNumber to 1
-    if (this.previousCategoryId != this.currentCategoryId) {
+    if (this.previousCategoryId != this.currentCategoryId ||
+        this.previousIncludeDescendants !== includeDescendants) {
       this.pageNumber = 1;
     }
 
     this.previousCategoryId = this.currentCategoryId;
+    this.previousIncludeDescendants = includeDescendants;
 
     console.log(`currentcategoryId=${this.currentCategoryId}, pageNumber=${this.pageNumber}`);
 
 
     // now get the products for this category id
-    this.productService.getProductListPaginate(this.pageNumber - 1, this.pageSize, this.currentCategoryId)
+    this.productService.getProductListPaginate(
+      this.pageNumber - 1,
+      this.pageSize,
+      this.currentCategoryId ?? undefined,
+      includeDescendants
+    )
       .subscribe(this.processResult());
   }
 
@@ -109,7 +112,7 @@ export class ProductListComponent implements OnInit {
 
   processResult() {
     return (data: any) => {
-      this.products = data._embedded.products;
+      this.products = data.content;
       this.pageNumber = data.page.number + 1;
       this.pageSize = data.page.size;
       this.totalElements = data.page.totalElements;
@@ -117,11 +120,15 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log(`product=${product.name} & product price=${product.unitPrice}`);
+    const variant = getDisplayVariant(product);
+    console.log(`product=${product.name} & product price=${variant ? variant.unitPrice : 'n/a'}`);
 
-    // TODO: handle the click
     const theCartItem = new CartItem(product);
     
     this.cartService.addToCart(theCartItem);
+  }
+
+  displayVariant(product: Product) {
+    return getDisplayVariant(product);
   }
 }

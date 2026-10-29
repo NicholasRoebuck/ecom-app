@@ -1,0 +1,23 @@
+.checkout-page {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.checkout-page .container-fluid {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.purchase-button {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+.purchase-button:hover,
+.purchase-button:focus {
+    color: #fff;
+    background-color: #292929;
+    border-color: #292929;
+}

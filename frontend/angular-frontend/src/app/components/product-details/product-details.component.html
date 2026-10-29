@@ -6,10 +6,10 @@
          <!-- i think this is due to a race condition-->
         <!-- working on a permanent solution for this bug, but for now i'm using *ngIf statments to prevent the browser console log errors -->
         
-        <img *ngIf="product" src="{{ product.imageUrl }}" class="detail-img">
+        <img *ngIf="product" src="{{ displayVariant()?.imageUrl }}" class="detail-img">
 
         <h3 *ngIf="product"> {{ product.name }}</h3>
-        <div *ngIf="product" class="price"> {{ product.unitPrice  | currency:'USD'}} </div>
+        <div *ngIf="product" class="price"> {{ displayVariant()?.unitPrice  | currency:'USD'}} </div>
         <button (click)="addTocart()" class="btn btn-primary btn-sm">Add to cart</button>
 
         <hr>

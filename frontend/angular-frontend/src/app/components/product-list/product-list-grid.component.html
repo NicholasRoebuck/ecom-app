@@ -1,72 +1,54 @@
-<div class="main-content">
+<div class="main-content product-list-page">
     <div class="section-content section-content-p30">
         <div class="container-fluid">
-            <div class="row">
-                <!-- Here loop over the collection of products-->
+            <div class="product-grid">
+                <article *ngFor="let product of products" class="product-card">
+                    <a routerLink="/products/{{ product.id }}" class="product-image-link">
+                        <img src="{{ displayVariant(product)?.imageUrl }}"
+                             alt="{{ product.name }}"
+                             class="product-image">
+                    </a>
 
-                <div *ngFor="let product of products" class="col-md-3">
-                    <div class="product-box">
-
-                        <a routerLink="/products/{{ product.id }}">
-                            <img src="{{ product.imageUrl }}" class="img-responsive">
+                    <div class="product-card-content">
+                        <a routerLink="/products/{{ product.id }}" class="product-name-link">
+                            <h2 class="product-name">{{ product.name }}</h2>
                         </a>
 
-                        <a routerLink="/products/{{ product.id }}">
-                            <h1> {{ product.name }} </h1>
-                        </a>
-                        <div class="price"> {{ product.unitPrice | currency:'USD' }}</div>
-                        <button (click)="addToCart(product)" class="btn btn-primary btn-sm">Add to cart</button>
+                        <div class="product-price">
+                            {{ displayVariant(product)?.unitPrice | currency:'USD' }}
+                        </div>
+
+                        <button (click)="addToCart(product)" class="product-add-button">
+                            Add to cart
+                        </button>
                     </div>
-                </div>
+                </article>
 
-                <!-- if the products are not found display message -->
-                <div *ngIf="products.length == 0" class="alert alert-warning col-md-12" role="alert">
+                <div *ngIf="products.length === 0" class="empty-products">
                     No products found ...
                 </div>
-
-            </div>
-            <!-- begin pagination footer -->
-            
-            <div class="footer-pagination">
-                <div class="row">
-                    <div class="col-md-6">
-
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-9" style="padding-left: 30%;">
-                                
-                                <ngb-pagination [(page)]="pageNumber"
-                                                [pageSize]="pageSize"
-                                                [maxSize]="5"
-                                                [boundaryLinks]="true"
-                                                [collectionSize]="totalElements"
-                                                (pageChange)="listProduct()">
-                                    
-                                </ngb-pagination>
-
-                            </div>
-                            <!-- -->
-                            <div class="col-md-3 mt-2" style="text-align: right;">
-                                <span class="mr-2">Page Size</span> 
-                                
-                                <select #pageSelect (change)="updatePageSize(pageSelect.value)"> 
-                                    <option>2</option>
-                                    <option selected="true">5</option>
-                                    <option>10</option>
-                                    <option>20</option>
-                                    <option>50</option>
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- end pagination footer -->
+            <div class="product-list-pagination">
+                <ngb-pagination [(page)]="pageNumber"
+                                [pageSize]="pageSize"
+                                [maxSize]="5"
+                                [boundaryLinks]="true"
+                                [collectionSize]="totalElements"
+                                (pageChange)="listProduct()">
+                </ngb-pagination>
 
+                <label class="page-size-control">
+                    <span>Page size</span>
+                    <select #pageSelect [value]="pageSize" (change)="updatePageSize(pageSelect.value)">
+                        <option>2</option>
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
+                </label>
+            </div>
         </div>
     </div>
 </div>

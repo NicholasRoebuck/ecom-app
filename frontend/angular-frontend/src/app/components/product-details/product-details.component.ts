@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../common/cart-item';
+import { getDisplayVariant } from '../../common/product-variant-utils';
 
 @Component({
   selector: 'app-product-details',
@@ -41,10 +42,15 @@ export class ProductDetailsComponent implements OnInit {
 
   addTocart() {
 
-    console.log(`Adding to cart: ${this.product.name}, ${this.product.unitPrice}`);
+    const variant = getDisplayVariant(this.product);
+    console.log(`Adding to cart: ${this.product.name}, ${variant ? variant.unitPrice : 'n/a'}`);
 
     const cartItem = new CartItem(this.product);
 
     this.cartService.addToCart(cartItem);
+  }
+
+  displayVariant() {
+    return getDisplayVariant(this.product);
   }
 }

@@ -8,10 +8,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RepositoryRestResource
+import java.util.List;
+
+// No longer @RepositoryRestResource: products are served through
+// ProductController/ProductQueryService instead, so the response shape
+// (including each product's variant list) is explicit and controlled
+// rather than relying on Spring Data REST's default entity serialization.
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
+
+    Page<Product> findByCategoryIdIn(List<Long> categoryIds, Pageable pageable);
 
     Page<Product> findByNameContaining(@Param("name") String name, Pageable pageable);
 }

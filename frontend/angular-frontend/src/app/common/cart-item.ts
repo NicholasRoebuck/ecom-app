@@ -1,4 +1,5 @@
 import { Product } from "./product";
+import { getDisplayVariant } from "./product-variant-utils";
 
 export class CartItem {
     id: string;
@@ -10,8 +11,10 @@ export class CartItem {
     constructor(product: Product){
         this.id = product.id+"";
         this.name = product.name;
-        this.imageUrl = product.imageUrl;
-        this.unitPrice = product.unitPrice;
+
+        const variant = getDisplayVariant(product);
+        this.imageUrl = variant ? variant.imageUrl : '';
+        this.unitPrice = variant ? variant.unitPrice : 0;
 
         this.quantity = 1;
 

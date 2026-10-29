@@ -11,12 +11,24 @@
 .product-categoryies-header > div:last-child {
     margin-bottom: 0;
 }
-a {
-    color: white;
-    font-size: 18px;
-    text-decoration: none;
+
+.department-toggle,
+.level1-item {
+    font-family: 'Changa', sans-serif;
 }
 
-a:hover {
-    color: forestgreen;
+@media (max-width: 991px) {
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        max-width: 100%;
+    }
+
+    .department-toggle {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-right: 0;
+        border-right: 0;
+    }
 }
