@@ -31,16 +31,14 @@
 <div class="nav-menu flex items-center gap-6">
 
   <!-- Department toggle -->
-  <div class="department-toggle flex gap-1 border-r border-gray-500 pr-4">
-    <a *ngFor="let dept of departments"
+  <div class="department-toggle" role="group" aria-label="Department">
+    <button type="button" *ngFor="let dept of departments"
        (click)="selectDepartment(dept)"
-       class="square-shadow-control cursor-pointer px-3 py-1 rounded-full text-base font-medium whitespace-nowrap transition-colors no-underline"
-       [class.bg-black]="activeDepartment?.id === dept.id"
-       [class.text-white]="activeDepartment?.id === dept.id"
-       [class.bg-gray-200]="activeDepartment?.id !== dept.id"
-       [class.text-gray-700]="activeDepartment?.id !== dept.id">
+       class="department-button cursor-pointer px-3 py-1 text-base font-medium whitespace-nowrap"
+       [class.is-selected]="activeDepartment?.id === dept.id"
+       [attr.aria-pressed]="activeDepartment?.id === dept.id">
       {{ dept.categoryName }}
-    </a>
+    </button>
   </div>
 
 <!-- Level 1 categories, inline in the same row -->
@@ -49,10 +47,12 @@
      (mouseenter)="onCategoryHoverEnter(cat)"
      (mouseleave)="onCategoryHoverLeave()">
   <a routerLink="category/{{ cat.id }}"
-     routerLinkActive="font-semibold"
-     class="flex items-center gap-1 cursor-pointer text-lg text-black hover:text-gray-700 whitespace-nowrap transition-colors no-underline">
+     routerLinkActive="category-active"
+     ariaCurrentWhenActive="page"
+     class="category-link flex items-center gap-1 cursor-pointer text-lg text-black hover:text-gray-700 whitespace-nowrap no-underline">
     {{ cat.categoryName }}
-    <span *ngIf="cat.hasChildren" class="caret text-xs">▾</span>
+    <span *ngIf="cat.hasChildren" class="category-caret"
+          [class.is-expanded]="expandedCategoryId === cat.id" aria-hidden="true">&#9662;</span>
   </a>
 
   <div class="nav-dropdown absolute top-full left-0 bg-white shadow-lg rounded-md py-2 min-w-[160px] z-50"

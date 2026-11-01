@@ -1,3 +1,11 @@
+  <div class="pt-4">
+    <div class="flex justify-center bg-black">
+      <img src="/assets/images/logo.png"
+           alt="Premear Hearing and Vision"
+           class="block w-[95%] md:w-3/4 max-w-4xl h-auto object-contain">
+    </div>
+  </div>
+
 <div class="main-content">
 
   <div class="intro">
@@ -8,7 +16,7 @@
 
   <div class="split">
 
-    <a class="panel panel--hearing" href="#" aria-label="Hearing services">
+    <a class="panel panel--hearing" [routerLink]="hearingDepartment ? ['/category', hearingDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" aria-label="Hearing services">
       <img src="https://placehold.co/900x1100/2e2fa0/2e2fa0" alt="">
       <div class="panel-copy">
         <div class="panel-label">
@@ -26,22 +34,9 @@
       </div>
     </a>
 
-    <a class="panel panel--vision" href="#" aria-label="Vision services">
-      <img src="https://placehold.co/900x1100/b97620/b97620" alt="">
-      <div class="panel-copy">
-        <div class="panel-label">
-          <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="#f4f2ec" stroke-width="1.6">
-            <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-          <h2>Vision</h2>
-        </div>
-        <p>Eye exams, glasses and contacts, and vision screenings.</p>
-        <span class="panel-cta">
-          Explore vision care
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </span>
-      </div>
+    <a class="panel panel--vision" [routerLink]="visionDepartment ? ['/category', visionDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" aria-label="Vision services">
+      <img src="/assets/images/pilla-logo.jpg" alt="Pilla Performance Eyewear" class="vision-brand-image">
+      <img src="/assets/images/pilla-x6-transparent.png" alt="Pilla X6 shooting glasses with a pink lens" class="vision-product-image" width="1536" height="1024">
     </a>
 
   </div>

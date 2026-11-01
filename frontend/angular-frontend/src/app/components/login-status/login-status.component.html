@@ -4,9 +4,9 @@
         Welcome back {{ userEmail }}!
     </div>
 
-    <button *ngIf="!isAuthenticated" (click)="login()" class="pill-button square-shadow-control">Login</button>
+    <button *ngIf="!isAuthenticated" (click)="login()" class="pill-button">Login</button>
 
-    <button *ngIf="isAuthenticated" (click)="logout()" class="pill-button square-shadow-control">Logout</button>
+    <button *ngIf="isAuthenticated" (click)="logout()" class="pill-button">Logout</button>
 
     <button *ngIf="isAuthenticated" routerLink="/members" class="pill-button">Member</button>
 

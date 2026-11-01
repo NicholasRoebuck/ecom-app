@@ -45,7 +45,7 @@ const routes: Routes = [
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'home', component: HomeComponent},
-  {path: '', redirectTo:'/products', pathMatch:'full'},
+  {path: '', redirectTo:'/home', pathMatch:'full'},
   {path: '**', redirectTo:'/products', pathMatch:'full'}
 ]
 
@@ -65,7 +65,7 @@ const routes: Routes = [
     HomeComponent,
   ],
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'disabled' }),
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

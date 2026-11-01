@@ -1068,3 +1068,42 @@ footer {
 .site-navbar .login-status-user-info {
     color: #000;
 }
+
+/* Raised surface with a compressing edge on press. */
+.site-navbar .pill-button {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22),
+                0 3px 0 #343434, 0 5px 8px rgba(0, 0, 0, 0.16);
+    transition: background-color 180ms ease, color 180ms ease,
+                box-shadow 120ms ease, transform 120ms ease;
+}
+
+@media (hover: hover) {
+    .site-navbar .pill-button:hover {
+        transform: translateY(-1px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                    0 4px 0 #343434, 0 7px 10px rgba(0, 0, 0, 0.18);
+    }
+}
+
+.site-navbar .pill-button:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.18),
+                0 1px 0 #343434, 0 2px 3px rgba(0, 0, 0, 0.12);
+}
+
+.site-navbar .pill-button:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-navbar .pill-button {
+        transition: none;
+    }
+
+    .site-navbar .pill-button:hover,
+    .site-navbar .pill-button:active {
+        transform: none;
+    }
+}

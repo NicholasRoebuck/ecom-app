@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../services/product.service';
+import { ProductCategoryNav } from '../../common/product-category-nav';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  hearingDepartment?: ProductCategoryNav;
+  visionDepartment?: ProductCategoryNav;
 
-  constructor () {
+  constructor(private productService: ProductService) {}
 
+  ngOnInit(): void {
+    this.productService.getTopLevelCategories().subscribe(departments => {
+      this.hearingDepartment = departments.find(dept => dept.categoryName.toLowerCase() === 'hearing');
+      this.visionDepartment = departments.find(dept => dept.categoryName.toLowerCase() === 'vision');
+    });
   }
-
-  
-
 }

@@ -17,7 +17,8 @@
   }
 
   .main-content {
-    min-height: 100vh;
+    min-height: auto;
+    padding-bottom: 2.5rem;
     display: flex;
     flex-direction: column;
     background: var(--ink);
@@ -53,28 +54,15 @@
 
   .split {
     position: relative;
-    flex: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 480px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(820px, calc(100% - 2rem));
+    margin: 0 auto;
+    gap: 1.25rem;
+    min-height: 340px;
   }
 
-  /* the divider: a vertical seam that blends from the hearing color
-     into the vision color — the two senses meeting in the middle,
-     rather than a generic hairline rule */
-  .split::after {
-    content: "";
-    position: absolute;
-    top: 6%;
-    bottom: 6%;
-    left: 50%;
-    width: 2px;
-    transform: translateX(-50%);
-    background: linear-gradient(to bottom, var(--hearing), var(--vision));
-    opacity: 0.9;
-    z-index: 3;
-    pointer-events: none;
-  }
+  .split::after { display: none; }
 
   .panel {
     position: relative;
@@ -83,6 +71,8 @@
     text-decoration: none;
     overflow: hidden;
     isolation: isolate;
+    min-height: 340px;
+    border-radius: 20px;
   }
 
   .panel img {
@@ -125,7 +115,7 @@
 
   .panel-copy {
     position: relative;
-    padding: 2.5rem 2.75rem;
+    padding: 1.5rem;
     width: 100%;
   }
 
@@ -173,7 +163,7 @@
   .panel:hover .panel-cta svg { transform: translateX(4px); }
 
   @media (max-width: 700px) {
-    .split { grid-template-columns: 1fr; min-height: auto; }
+    .split { grid-template-columns: 1fr; min-height: auto; max-width: 400px; }
     .split::after {
       top: auto; bottom: auto; left: 6%; right: 6%;
       width: auto; height: 2px;
@@ -182,3 +172,56 @@
     }
     .panel { min-height: 320px; }
   }
+/* Keep the Vision artwork directly on the page background. */
+.panel--vision {
+    background: transparent;
+    min-height: 480px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0 1.5rem;
+    border-radius: 0;
+}
+
+.panel--vision::before {
+    display: none;
+}
+
+.panel--vision .vision-brand-image,
+.panel--vision .vision-product-image {
+    position: static;
+    inset: auto;
+    height: auto;
+    object-fit: contain;
+    filter: none;
+    transform: none;
+    z-index: auto;
+}
+
+.panel--vision .vision-brand-image {
+    width: 150px;
+    aspect-ratio: 1;
+    clip-path: circle(43% at 50% 50%);
+}
+
+.panel--vision .vision-product-image {
+    width: 100%;
+}
+
+.panel--vision:hover img,
+.panel--vision:focus-visible img {
+    filter: none;
+    transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel--vision img {
+        transition: none;
+    }
+
+    .panel--vision:hover img,
+    .panel--vision:focus-visible img {
+        transform: none;
+    }
+}
