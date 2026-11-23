@@ -1,0 +1,62 @@
+<main class="product-list-page">
+  <header class="collection-header">
+    <nav class="collection-breadcrumbs" aria-label="Breadcrumb">
+      <a routerLink="/home">Home</a><span aria-hidden="true">/</span>
+      <a *ngIf="currentCategoryId !== null || searchMode; else shopLabel" routerLink="/products">Shop</a>
+      <ng-template #shopLabel><span aria-current="page">Shop</span></ng-template>
+      <ng-container *ngIf="currentCategoryId !== null || searchMode"><span aria-hidden="true">/</span><span aria-current="page">{{ searchMode ? 'Search' : categoryName }}</span></ng-container>
+    </nav>
+    <p class="collection-eyebrow">Find your fit</p>
+    <h1>{{ collectionTitle }}</h1>
+    <p class="collection-description">{{ collectionDescription }}</p>
+  </header>
+
+  <section aria-label="Product collection">
+    <div class="catalog-toolbar">
+      <p class="catalog-count" role="status">{{ loading ? 'Loading products...' : totalElements ? firstResult + '-' + lastResult + ' of ' + totalElements + ' products' : '0 products' }}</p>
+      <div class="catalog-controls">
+        <label *ngIf="!searchMode && categories.length" class="catalog-control" for="catalog-category">
+          <span>Category</span>
+          <select id="catalog-category" #categorySelect (change)="browseCategory(categorySelect.value)">
+            <option value="" [selected]="currentCategoryId === null">All products</option>
+            <option *ngFor="let category of categories" [value]="category.id" [selected]="currentCategoryId === category.id">{{ category.categoryName }}</option>
+          </select>
+        </label>
+        <label class="catalog-control" for="catalog-sort"><span>Sort by</span>
+          <select id="catalog-sort" #sortSelect [value]="sortOrder" (change)="changeSort(sortSelect.value)">
+            <option value="catalog">Catalog order</option><option value="name">Name: A-Z</option>
+            <option value="name-desc">Name: Z-A</option><option value="newest">Newest first</option>
+          </select>
+        </label>
+        <label class="catalog-control" for="catalog-size"><span>Show</span>
+          <select id="catalog-size" #sizeSelect [value]="pageSize" (change)="updatePageSize(sizeSelect.value)">
+            <option value="12">12</option><option value="24">24</option><option value="48">48</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="catalog-message" role="alert"><p>{{ error }}</p><button type="button" class="product-add-button" (click)="listProduct()">Try again</button></div>
+    <div *ngIf="!loading && !error" class="product-grid">
+      <article *ngFor="let product of products" class="product-card">
+        <a [routerLink]="['/products', product.id]" class="product-image-link">
+          <img *ngIf="displayVariant(product)?.imageUrl; else missingImage" [src]="displayVariant(product)?.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
+          <ng-template #missingImage><span class="product-image-placeholder">Image coming soon</span></ng-template>
+        </a>
+        <div class="product-card-content">
+          <p class="product-variation-count">{{ product.variants.length > 1 ? product.variants.length + ' variations' : 'Single variation' }}</p>
+          <a [routerLink]="['/products', product.id]" class="product-name-link"><h2 class="product-name">{{ product.name }}</h2></a>
+          <p *ngIf="shortDescription(product)" class="product-excerpt">{{ shortDescription(product) }}</p>
+          <p class="product-price"><span *ngIf="hasPriceRange(product)" class="price-prefix">From </span>{{ minimumPrice(product) !== null ? (minimumPrice(product) | currency:'USD') : 'Unavailable' }}</p>
+          <a *ngIf="product.variants.length > 1" [routerLink]="['/products', product.id]" class="product-add-button">Choose options <span aria-hidden="true">&#8594;</span></a>
+          <button *ngIf="product.variants.length <= 1" type="button" (click)="addToCart(product)" class="product-add-button" [disabled]="!displayVariant(product)?.active || !(displayVariant(product)?.unitsInStock > 0)">{{ displayVariant(product)?.active && displayVariant(product)?.unitsInStock > 0 ? 'Add to cart' : 'Unavailable' }}</button>
+        </div>
+      </article>
+      <div *ngIf="!products.length" class="catalog-message"><h2>No products found</h2><p>Try another category or search term.</p><a routerLink="/products">Browse all products</a></div>
+    </div>
+    <nav *ngIf="!loading && !error && totalElements > pageSize" class="product-list-pagination" aria-label="Product pages">
+      <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="3" [boundaryLinks]="true"
+        [collectionSize]="totalElements" (pageChange)="listProduct()"></ngb-pagination>
+    </nav>
+  </section>
+</main>

@@ -1,0 +1,31 @@
+<main class="home-page">
+  <header class="home-masthead">
+    <img src="/assets/images/logo.png" alt="PremEAR Hearing and Vision" class="premear-logo" width="1245" height="653" fetchpriority="high">
+    <div class="intro">
+      <p class="eyebrow">Two senses, one visit</p>
+      <h1>Hearing<br>and Vision.</h1>
+      <p class="sub">Tell us where to begin.</p>
+    </div>
+  </header>
+  <section class="split" aria-label="Shop by department">
+    <a class="panel panel--hearing" [routerLink]="hearingDepartment ? ['/category', hearingDepartment.id] : null" [queryParams]="{includeDescendants: true}" [state]="{scrollToTop: true}" aria-label="Hearing services">
+      <div class="hearing-symbol" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h4M4 12v3a3 3 0 0 0 3 3"/></svg>
+      </div>
+      <div class="panel-copy"><p class="department-kicker">Hearing care</p><h2>Hearing</h2>
+        <p>Hearing tests, hearing aid fittings, and routine checkups.</p>
+        <span class="panel-cta">Explore hearing care <span aria-hidden="true">&#8594;</span></span>
+      </div>
+    </a>
+    <a class="panel panel--vision" [routerLink]="visionDepartment ? ['/category', visionDepartment.id] : null" [queryParams]="{includeDescendants: true}" [state]="{scrollToTop: true}" aria-label="Vision services">
+      <div class="vision-artwork">
+        <img src="/assets/images/pilla-logo.jpg" alt="Pilla Performance Eyewear" class="vision-brand-image" width="120" height="120">
+        <img src="/assets/images/pilla-x6-transparent.png" alt="Pilla X6 shooting glasses with a pink lens" class="vision-product-image" width="1536" height="1024">
+      </div>
+      <div class="panel-copy"><p class="department-kicker">Performance eyewear</p><h2>Vision</h2>
+        <p>Explore Pilla frames and lenses.</p>
+        <span class="panel-cta">Shop eyewear <span aria-hidden="true">&#8594;</span></span>
+      </div>
+    </a>
+  </section>
+</main>

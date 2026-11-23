@@ -1,0 +1,21 @@
+.product-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2.5rem 1.75rem; }
+.product-card { display:flex; min-width:0; flex-direction:column; }
+.product-image-link { display:flex; align-items:center; justify-content:center; overflow:hidden; aspect-ratio:4/3; background:#fff; border:1px solid #ddd; border-radius:14px; }
+.product-image { display:block; width:100%; height:100%; padding:1.5rem; object-fit:contain; transition:transform 180ms ease; }
+.product-card:hover .product-image { transform:scale(1.035); }
+.product-image-placeholder { padding:1rem; color:#666; font-size:.9rem; }
+.product-card-content { display:flex; flex:1; flex-direction:column; gap:.65rem; padding:1.1rem .15rem 0; }
+.product-name-link { color:#111; text-decoration:none; }
+.product-name-link:hover { text-decoration:underline; text-underline-offset:.2em; }
+.product-name { margin:0; color:#111; font-size:1.15rem; line-height:1.4; font-weight:600; }
+.product-variation-count { margin:0; color:#666; font-size:.78rem; letter-spacing:.04em; }
+.product-excerpt { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; color:#555; font-size:.9rem; line-height:1.6; margin:0; }
+.product-price { margin:.15rem 0 .5rem; color:#111; font-size:1.05rem; font-weight:600; }
+.price-prefix { font-size:.85rem; font-weight:400; }
+.product-add-button { display:inline-flex; align-items:center; justify-content:center; gap:.75rem; width:fit-content; margin-top:auto; padding:.6rem 1.15rem; border:1px solid #111; border-radius:999px; background:#111; color:#fff; font:inherit; font-size:.85rem; text-decoration:none; cursor:pointer; }
+.product-add-button:hover { background:#333; color:#fff; }
+.product-add-button:disabled { opacity:.5; cursor:default; }
+a:focus-visible,button:focus-visible,select:focus-visible { outline:2px solid #111; outline-offset:4px; }
+@media(min-width:600px) { .product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(min-width:960px) { .product-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(prefers-reduced-motion:reduce) { .product-image { transition:none; } .product-card:hover .product-image { transform:none; } }

@@ -1,0 +1,89 @@
+{
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-list.component.css",
+      "sha256": "be13a136a576b9dba8c68dca93ec1df0ce96f0189c2bb1af9e12688e8ecb7d36"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-catalog.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-catalog.css",
+      "sha256": "ec13cbab9e96f0362a6a264d842d7100f4ebc4a178e0159f71bb1ec54f5d0f4c"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-details/product-details.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-details__product-details.component.css",
+      "sha256": "348e87b2a289986f46e40a7eef3e4ed9e10d7d4518a16119d0d4bddc3e677cbc"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__cart-details__cart-details.component.css",
+      "sha256": "3ce584bcea674a356b22d2259d009935c184030db02a994a24baf42bb55dc7b0"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/checkout/checkout.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__checkout__checkout.component.css",
+      "sha256": "617d1e1e02e597cdefa97956939bb83304699b31e1735660b029bd9dacc01dbe"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.css",
+      "backup": "frontend__angular-frontend__src__app__app.component.css",
+      "sha256": "d977bbbfc761b1b1146393fe5cff6f6805a3e1a48c4928d489cdaf3bbc295a59"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.html",
+      "backup": "frontend__angular-frontend__src__app__app.component.html",
+      "sha256": "e33ea9c305d5b7ba3cd5de302b1b9fd6a6bbaedee520604f08024bcf1a845d8f"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__home__home.component.css",
+      "sha256": "9006bb315cb6b26f968384048ee2381316ad90f48a4cae0ce827064db387ccec"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__home__home.component.html",
+      "sha256": "b90f3efcd7c192ce65c82d396458b1bf3b306435ae9d227d53bc80a36131b997"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.css",
+      "sha256": "396c081ce77818d8ad6df6ebeadfe861b2c12792755dc49d9f17d468b1a3f69d"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__search__search.component.css",
+      "sha256": "f435af2f095e305342054c85616c9bc50de14d75230a21284e7b4410c401f4bc"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__search__search.component.html",
+      "sha256": "d26bbc2f7d7f53483692cd605309b05b47171a7a74ef3c132b0e7bad451b3bdb"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/login-status/login-status.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__login-status__login-status.component.css",
+      "sha256": "0733e85ca61234fdf810b5166563d598bc38bba53070b8611d0b6d0a7ad4fefe"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__cart-status__cart-status.component.css",
+      "sha256": "103b928af93849abf9463369eaa56c0f09c891054590f24e3b66d0693993fa1e"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.ts",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.ts",
+      "sha256": "b206b007e685c36b627eac5070b54f25da099a8c8c376bc614973c297bae8f24"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.html",
+      "sha256": "bcd6400bd8ee199c80157d4c6ece837b00557efb434184d5f8340817796f7f27"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.spec.ts",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.spec.ts",
+      "sha256": "af5ce2fde73e9fc7451953f548938d4120297e242c0bb62d2e7b4fc81ff68acb"
+    }
+  ]
+}

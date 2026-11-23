@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@org.springframework.transaction.annotation.Transactional(readOnly = true)
 public class ProductQueryService {
 
     private final ProductRepository productRepository;
@@ -31,8 +32,10 @@ public class ProductQueryService {
         this.productCategoryRepository = productCategoryRepository;
     }
 
-    public PagedResponseDTO<ProductSummaryDTO> getAll(int page, int size) {
-        return toPagedDTO(productRepository.findAll(PageRequest.of(page, size)));
+    public PagedResponseDTO<ProductSummaryDTO> getAll(int page, int size) { return getAll(page, size, "catalog"); }
+
+    public PagedResponseDTO<ProductSummaryDTO> getAll(int page, int size, String sort) {
+        return toPagedDTO(productRepository.findAll(catalogPage(page, size, sort)));
     }
 
     public PagedResponseDTO<ProductSummaryDTO> getByCategory(Long categoryId, int page, int size) {
@@ -41,7 +44,12 @@ public class ProductQueryService {
 
     public PagedResponseDTO<ProductSummaryDTO> getByCategory(
             Long categoryId, int page, int size, boolean includeDescendants) {
-        PageRequest pageable = PageRequest.of(page, size);
+        return getByCategory(categoryId, page, size, includeDescendants, "catalog");
+    }
+
+    public PagedResponseDTO<ProductSummaryDTO> getByCategory(
+            Long categoryId, int page, int size, boolean includeDescendants, String sort) {
+        PageRequest pageable = catalogPage(page, size, sort);
         Page<Product> productPage;
 
         if (includeDescendants) {
@@ -54,8 +62,26 @@ public class ProductQueryService {
     }
 
     public PagedResponseDTO<ProductSummaryDTO> searchByName(String name, int page, int size) {
-        Page<Product> productPage = productRepository.findByNameContaining(name, PageRequest.of(page, size));
+        return searchByName(name, page, size, "catalog");
+    }
+
+    public PagedResponseDTO<ProductSummaryDTO> searchByName(String name, int page, int size, String sort) {
+        Page<Product> productPage = productRepository.findByNameContaining(name, catalogPage(page, size, sort));
         return toPagedDTO(productPage);
+    }
+
+
+    PageRequest catalogPage(int page, int size, String order) {
+        if (page < 0 || size < 1 || size > 100)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid catalog page or size.");
+        var sort = switch (order) {
+            case "catalog" -> org.springframework.data.domain.Sort.unsorted();
+            case "name" -> org.springframework.data.domain.Sort.by("name").ascending().and(org.springframework.data.domain.Sort.by("id"));
+            case "name-desc" -> org.springframework.data.domain.Sort.by("name").descending().and(org.springframework.data.domain.Sort.by("id"));
+            case "newest" -> org.springframework.data.domain.Sort.by("dateCreated").descending().and(org.springframework.data.domain.Sort.by("id").descending());
+            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported catalog sort.");
+        };
+        return PageRequest.of(page, size, sort);
     }
 
     public ProductSummaryDTO getById(Long id) {
@@ -64,14 +90,14 @@ public class ProductQueryService {
         return toSummaryDTO(product);
     }
 
-    private PagedResponseDTO<ProductSummaryDTO> toPagedDTO(Page<Product> productPage) {
+    PagedResponseDTO<ProductSummaryDTO> toPagedDTO(Page<Product> productPage) {
         List<ProductSummaryDTO> content = productPage.getContent().stream()
                 .map(this::toSummaryDTO)
                 .toList();
         return PagedResponseDTO.from(productPage, content);
     }
 
-    private List<Long> getCategoryTreeIds(Long rootCategoryId) {
+    List<Long> getCategoryTreeIds(Long rootCategoryId) {
         List<Long> categoryIds = new ArrayList<>();
         Set<Long> visited = new HashSet<>();
         ArrayDeque<Long> pending = new ArrayDeque<>();
@@ -115,7 +141,7 @@ public class ProductQueryService {
                 variant.getUnitPrice(),
                 variant.getImageUrl(),
                 variant.isActive(),
-                variant.getUnitsInStock()
+                variant.getUnitsInStock(), variant.getOptions()
         );
     }
 }

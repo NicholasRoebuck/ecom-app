@@ -1,33 +1,45 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderHistory } from '../../common/order-history';
 import { OrderHistoryService } from '../../services/order-history.service';
 
 @Component({
   selector: 'app-order-history',
+  standalone: true,
+  imports: [CommonModule, NgbPaginationModule],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css'
 })
-export class OrderHistoryComponent {
-
+export class OrderHistoryComponent implements OnInit {
   orderHistoryList: OrderHistory[] = [];
-  storage: Storage = sessionStorage;
+  loading = false;
+  error = '';
+  pageNumber = 1;
+  pageSize = 20;
+  totalElements = 0;
+  private destroyRef = inject(DestroyRef);
 
-  constructor (private orderHistoryService: OrderHistoryService) {}
-  
-  ngOnInit(): void {
-    this.handleOrderHistory();
-  }
+  constructor(private orderHistoryService: OrderHistoryService) {}
+  ngOnInit(): void { this.handleOrderHistory(); }
 
-  handleOrderHistory(){
-
-    // read user email from broswer storage
-    const email = JSON.parse(this.storage.getItem('userEmail')!);
-
-    // call the orderHistoryService to get orders with user email
-    this.orderHistoryService.getOrderHistory(email).subscribe(
-      data => {
-        this.orderHistoryList= data._embedded.orders;
-      }
-    );
+  handleOrderHistory(): void {
+    this.loading = true;
+    this.error = '';
+    this.orderHistoryService.getOrderHistory(this.pageNumber - 1, this.pageSize)
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: data => {
+          this.orderHistoryList = data.content;
+          this.totalElements = data.page.totalElements;
+          this.pageNumber = data.page.number + 1;
+          this.loading = false;
+        },
+        error: () => {
+          this.orderHistoryList = [];
+          this.loading = false;
+          this.error = 'Could not load your orders. Please try again.';
+        }
+      });
   }
 }

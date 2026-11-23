@@ -29,39 +29,33 @@
 </div>-->
 
 <div class="nav-menu flex items-center gap-6">
-
-  <!-- Department toggle -->
   <div class="department-toggle" role="group" aria-label="Department">
-    <button type="button" *ngFor="let dept of departments"
-       (click)="selectDepartment(dept)"
-       class="department-button cursor-pointer px-3 py-1 text-base font-medium whitespace-nowrap"
-       [class.is-selected]="activeDepartment?.id === dept.id"
-       [attr.aria-pressed]="activeDepartment?.id === dept.id">
-      {{ dept.categoryName }}
-    </button>
+    <button type="button" *ngFor="let dept of departments" (click)="selectDepartment(dept)"
+      class="department-button cursor-pointer px-3 py-1 text-base font-medium whitespace-nowrap"
+      [class.is-selected]="activeDepartment?.id === dept.id" [attr.aria-pressed]="activeDepartment?.id === dept.id">{{ dept.categoryName }}</button>
   </div>
-
-<!-- Level 1 categories, inline in the same row -->
-  <div class="level1-item relative"
-     *ngFor="let cat of level1Categories"
-     (mouseenter)="onCategoryHoverEnter(cat)"
-     (mouseleave)="onCategoryHoverLeave()">
-  <a routerLink="category/{{ cat.id }}"
-     routerLinkActive="category-active"
-     ariaCurrentWhenActive="page"
-     class="category-link flex items-center gap-1 cursor-pointer text-lg text-black hover:text-gray-700 whitespace-nowrap no-underline">
-    {{ cat.categoryName }}
-    <span *ngIf="cat.hasChildren" class="category-caret"
-          [class.is-expanded]="expandedCategoryId === cat.id" aria-hidden="true">&#9662;</span>
-  </a>
-
-  <div class="nav-dropdown absolute top-full left-0 bg-white shadow-lg rounded-md py-2 min-w-[160px] z-50"
-       *ngIf="expandedCategoryId === cat.id">
-    <a *ngFor="let child of expandedChildren"
-       routerLink="category/{{ child.id }}"
-       routerLinkActive="font-semibold"
-       class="block px-4 py-2 text-base text-black hover:bg-gray-100 hover:text-black no-underline">
-      {{ child.categoryName }}
-    </a>
+  <div class="level1-item relative" *ngFor="let cat of level1Categories"
+    (pointerenter)="onCategoryPointerEnter(cat, $event)" (pointerleave)="onCategoryPointerLeave($event)"
+    (focusout)="onCategoryFocusOut($event)" (keydown.escape)="closeSubmenuFromKeyboard($event)">
+    <div class="category-entry">
+      <a [routerLink]="['/category', cat.id]" routerLinkActive="category-active" ariaCurrentWhenActive="page"
+        class="category-link flex items-center gap-1 cursor-pointer text-lg text-black hover:text-gray-700 whitespace-nowrap no-underline">{{ cat.categoryName }}</a>
+      <button *ngIf="cat.hasChildren" type="button" class="category-expand"
+        [attr.data-submenu-toggle]="cat.id" [attr.aria-label]="'Subcategories for ' + cat.categoryName"
+        [attr.aria-expanded]="expandedCategoryId === cat.id"
+        [attr.aria-controls]="expandedCategoryId === cat.id ? 'subcategory-menu-' + cat.id : null"
+        (click)="toggleSubmenu(cat)" (keydown.arrowdown)="openSubmenuFromKeyboard(cat, $event)">
+        <span class="category-caret" [class.is-expanded]="expandedCategoryId === cat.id" aria-hidden="true">&#9662;</span>
+      </button>
+    </div>
+    <div *ngIf="expandedCategoryId === cat.id" [id]="'subcategory-menu-' + cat.id"
+      class="nav-dropdown absolute top-full left-0 bg-white shadow-lg rounded-md py-2 min-w-[160px] z-50"
+      [attr.aria-label]="cat.categoryName + ' subcategories'">
+      <a *ngFor="let child of expandedChildren" [routerLink]="['/category', child.id]"
+        (click)="onCategoryHoverLeave()" routerLinkActive="font-semibold"
+        class="block px-4 py-2 text-base text-black hover:bg-gray-100 hover:text-black no-underline">{{ child.categoryName }}</a>
+      <span *ngIf="childLoading" class="submenu-status" role="status">Loading...</span>
+      <span *ngIf="!childLoading && !expandedChildren.length" class="submenu-status">No subcategories available.</span>
+    </div>
   </div>
 </div>

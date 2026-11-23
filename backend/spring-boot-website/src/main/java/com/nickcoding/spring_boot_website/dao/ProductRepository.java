@@ -10,11 +10,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
-// No longer @RepositoryRestResource: products are served through
+// Repository export is disabled: products are served through
 // ProductController/ProductQueryService instead, so the response shape
 // (including each product's variant list) is explicit and controlled
 // rather than relying on Spring Data REST's default entity serialization.
-public interface ProductRepository extends JpaRepository<Product, Long> {
+@RepositoryRestResource(exported = false)
+public interface ProductRepository extends JpaRepository<Product, Long>, org.springframework.data.jpa.repository.JpaSpecificationExecutor<Product> {
+    long countByCategoryId(Long categoryId);
+
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @org.springframework.data.jpa.repository.Query("select p from Product p where p.id = :id")
+    java.util.Optional<Product> findForAdminUpdate(@Param("id") Long id);
+
 
     Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
 

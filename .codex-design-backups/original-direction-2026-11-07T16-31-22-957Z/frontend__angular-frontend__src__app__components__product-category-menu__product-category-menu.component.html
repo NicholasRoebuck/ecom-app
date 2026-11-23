@@ -1,0 +1,22 @@
+<div class="nav-menu" (mouseleave)="onCategoryHoverLeave()" (focusout)="onFocusOut($event)" (keydown.escape)="onCategoryHoverLeave()">
+  <div class="department-toggle" role="group" aria-label="Department">
+    <button type="button" *ngFor="let dept of departments" (click)="selectDepartment(dept)"
+      class="department-button" [class.is-selected]="activeDepartment?.id === dept.id"
+      [attr.aria-pressed]="activeDepartment?.id === dept.id">{{ dept.categoryName }}</button>
+  </div>
+  <div class="category-links" [attr.aria-busy]="loading">
+    <span *ngIf="loading" class="nav-status" role="status">Loading categories...</span>
+    <span *ngIf="error" class="nav-status" role="alert">{{ error }}</span>
+    <div class="level1-item" *ngFor="let cat of level1Categories" (mouseenter)="onCategoryHoverEnter(cat)">
+      <a [routerLink]="['/category', cat.id]" routerLinkActive="category-active" ariaCurrentWhenActive="page" class="category-link">{{ cat.categoryName }}</a>
+      <button *ngIf="cat.hasChildren" type="button" class="category-expand" (click)="toggleCategory(cat)"
+        [attr.aria-label]="'Subcategories for ' + cat.categoryName" [attr.aria-expanded]="expandedCategoryId === cat.id"
+        [attr.aria-controls]="expandedCategoryId === cat.id ? 'department-subcategories' : null">&#9662;</button>
+    </div>
+  </div>
+  <div *ngIf="expandedCategoryId !== null" id="department-subcategories" class="nav-dropdown" aria-label="Subcategories">
+    <a *ngFor="let child of expandedChildren" [routerLink]="['/category', child.id]" (click)="onCategoryHoverLeave()">{{ child.categoryName }}</a>
+    <span *ngIf="childLoading" class="nav-status" role="status">Loading subcategories...</span>
+    <span *ngIf="!childLoading && !expandedChildren.length" class="nav-status">No subcategories available.</span>
+  </div>
+</div>

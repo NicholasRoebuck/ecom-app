@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -27,7 +28,7 @@ describe('ProductService', () => {
     service.getProductListPaginate(0, 10).subscribe();
 
     const request = httpMock.expectOne(
-      'https://localhost:8443/api/products?page=0&size=10'
+      environment['premearAppApiUrl'] + '/products?page=0&size=10&sort=catalog'
     );
     expect(request.request.method).toBe('GET');
     request.flush({ content: [], page: { size: 10, totalElements: 0, totalPages: 0, number: 0 } });
@@ -37,9 +38,19 @@ describe('ProductService', () => {
     service.getProductListPaginate(0, 10, 1, true).subscribe();
 
     const request = httpMock.expectOne(
-      'https://localhost:8443/api/products/category/1?page=0&size=10&includeDescendants=true'
+      environment['premearAppApiUrl'] + '/products/category/1?page=0&size=10&includeDescendants=true&sort=catalog'
     );
     expect(request.request.method).toBe('GET');
     request.flush({ content: [], page: { size: 10, totalElements: 0, totalPages: 0, number: 0 } });
+  });
+  it('sends encoded option filters to the server and scopes option discovery', () => {
+    service.getProductListPaginate(1, 12, 3, true, 'name', {minPrice: 0, inStock: true, options: {'Lens type': 'Rose & Gold'}}).subscribe();
+    const request = httpMock.expectOne(req => req.url.includes('/products/category/3?'));
+    const params = new URL(request.request.url, 'https://example.test').searchParams;
+    expect(params.get('minPrice')).toBe('0'); expect(params.get('option.Lens type')).toBe('Rose & Gold');
+    expect(params.get('page')).toBe('1'); expect(params.get('inStock')).toBe('true'); request.flush({content: [], page: {}});
+    service.getFilterOptions(3, true).subscribe();
+    const facets = httpMock.expectOne(environment['premearAppApiUrl'] + '/products/filters?categoryId=3&includeDescendants=true');
+    expect(facets.request.method).toBe('GET'); facets.flush({options: []});
   });
 });

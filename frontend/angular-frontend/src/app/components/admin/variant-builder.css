@@ -1,0 +1,8 @@
+.builder-section { border-top: 1px solid #ddd; padding-top: 1.5rem; margin-top: 2rem; }
+.definition { border: 1px solid #ccc; border-radius: 10px; padding: 1rem; margin: 1rem 0; }
+.definition-grid, .details-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.mapping-row, .variant-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+.mapping-row > div { flex: 1; min-width: 160px; }
+.variant-summary { color: #555; margin: .75rem 0 0 !important; }
+.customization { border-top: 1px solid #ddd; margin-top: 1rem; padding-top: .5rem; }
+@media (max-width: 640px) { .definition-grid, .details-grid { grid-template-columns: 1fr; } }

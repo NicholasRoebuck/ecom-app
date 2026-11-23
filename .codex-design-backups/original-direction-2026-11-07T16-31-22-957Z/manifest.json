@@ -1,0 +1,85 @@
+{
+  "description": "Before restoring original design and polishing its homepage",
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-list.component.css",
+      "sha256": "554d1dd5706f0c909060de51fe1cb85227408325ae3563547ad9d8a95169cd11"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-catalog.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-catalog.css",
+      "sha256": "2fd095079625324e4551a71420cbd6c67daf5e52fbb1c602989754779011ef22"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-details/product-details.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-details__product-details.component.css",
+      "sha256": "2229f25d95501b89f77cdd095679d80afcf48de26fe10985e3a12e12cb5dd854"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__cart-details__cart-details.component.css",
+      "sha256": "0123e4c18ffbfda29a192c4fe5b8f5b6f5bf9b1a025b880f3a5d3ca4be6e07f4"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/checkout/checkout.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__checkout__checkout.component.css",
+      "sha256": "7c427cf669489952be78c1acbf26c26c0294fe4424662359ce35562133fcee3d"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.css",
+      "backup": "frontend__angular-frontend__src__app__app.component.css",
+      "sha256": "533bc396f25df806fd0bfafbfbd351aa43f5f4fcbf80c865012ca0533b753ca6"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.html",
+      "backup": "frontend__angular-frontend__src__app__app.component.html",
+      "sha256": "b5614d7c1f7aa64402b384ffb6a77b736eba5f8c744d3930fdb60b50293e356f"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__home__home.component.css",
+      "sha256": "4d41462278f7d360dfff79a753630992b438b6db6b17fdac5198f29d99fcfff5"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__home__home.component.html",
+      "sha256": "bf5933e0956ffd18205dc4e61b5d8334d67106d9aa82796039da8fd9cb1af5c0"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.css",
+      "sha256": "7a239de8ee32c239da759a180645baad98aaf8bc08bb27f8b89934d4693d4954"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__search__search.component.css",
+      "sha256": "5ea8d225e8451846ef52d93e48ffc42f0b6679230b0dd05182e0398ff2af51ee"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__search__search.component.html",
+      "sha256": "d26bbc2f7d7f53483692cd605309b05b47171a7a74ef3c132b0e7bad451b3bdb"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/login-status/login-status.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__login-status__login-status.component.css",
+      "sha256": "d6cedea52558bef0cc1d32fa6642ceb6c9b00824c806bc3ee889c5bbed6077ef"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__cart-status__cart-status.component.css",
+      "sha256": "bfb01c4b58dfc7106cd5022ee6236ca567c0d43133dc00f39efec45055054bdd"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__product-category-menu__product-category-menu.component.html",
+      "sha256": "bcd6400bd8ee199c80157d4c6ece837b00557efb434184d5f8340817796f7f27"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.spec.ts",
+      "backup": "frontend__angular-frontend__src__app__components__home__home.component.spec.ts",
+      "sha256": "657e773d0e4f3aed201cf0882339aa3694933598504fcc24506dca941e249ea1"
+    }
+  ]
+}

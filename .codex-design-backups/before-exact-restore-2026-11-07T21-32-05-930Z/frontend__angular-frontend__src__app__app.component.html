@@ -1,0 +1,41 @@
+<div class="page-wrapper">
+  <div class="h-11 bg-gray-100 justify-end flex items-center px-4">
+    <a href="" class="no-underline text-black hover:text-gray-600">Contact Us</a>
+  </div>
+
+  <nav class="site-navbar h-16 w-full bg-white text-black"
+       [class.scrolled]="isScrolled">
+      <div class="site-navbar-content flex items-center h-full">
+        <div class="nav-home">
+          <a routerLink="/home" class="home-link" aria-label="Premear home">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="currentColor" class="size-8">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="nav-search-categories flex items-center gap-12 px-6">
+          <app-search></app-search>
+          <app-product-category-menu #departmentMenu></app-product-category-menu>
+        </div>
+
+        <div class="nav-account-actions flex items-center gap-6 px-4 ml-auto">
+          <app-login-status></app-login-status>
+          <app-cart-status></app-cart-status>
+        </div>
+      </div>
+  </nav>
+
+
+
+  <router-outlet></router-outlet>
+</div>
+
+<footer>
+  <ul>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Help</a></li>
+  </ul>
+</footer>

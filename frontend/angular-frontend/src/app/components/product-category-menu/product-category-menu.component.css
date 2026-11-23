@@ -17,7 +17,7 @@
     font-family: 'Changa', sans-serif;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1599px) {
     .nav-menu {
         flex-wrap: wrap;
         justify-content: center;
@@ -203,3 +203,5 @@
         transform: none;
     }
 }
+
+.category-entry{display:flex;align-items:center}.category-expand{display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:44px;padding:0 .35rem;border:0;background:transparent;color:inherit;cursor:pointer}.category-expand:focus-visible{outline:2px solid #000;outline-offset:2px;border-radius:4px}.submenu-status{display:block;padding:.5rem 1rem;color:#555;font-size:.8rem}

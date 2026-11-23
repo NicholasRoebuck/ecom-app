@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "file": "frontend/angular-frontend/angular.json",
+      "backup": "angular.json",
+      "sha256": "2d3a557390127cb7082f837a135cf69129715759cb96ff7a4f29eecf5ae3bb96"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.html",
+      "backup": "src__app__components__cart-status__cart-status.component.html",
+      "sha256": "c4a3b3594662467aae893303458a4abafe65ffe4a0881386c77c515834e75ccc"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.css",
+      "backup": "src__app__components__cart-status__cart-status.component.css",
+      "sha256": "180bb65418c09cef3b26fa7ce1ec3679f8e4f97834aaefd34078e49ed42db0f2"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.spec.ts",
+      "backup": "src__app__components__cart-status__cart-status.component.spec.ts",
+      "sha256": "459023e613bf3c139cf64d2f66bd0f51a2cddc5d2be2aaa1f3c1993e53aae1d1"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.html",
+      "backup": "src__app__components__cart-details__cart-details.component.html",
+      "sha256": "f1813613f80284f7fdb69b5bc54a6ce8e72b76f41d874b7de03b95a56da6888f"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.css",
+      "backup": "src__app__components__cart-details__cart-details.component.css",
+      "sha256": "3ce584bcea674a356b22d2259d009935c184030db02a994a24baf42bb55dc7b0"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.spec.ts",
+      "backup": "src__app__components__cart-details__cart-details.component.spec.ts",
+      "sha256": "d2251a161aeb9871f909b9d5a4ba192a0948d007ff57d4bcd74f9a3082032bf1"
+    }
+  ]
+}

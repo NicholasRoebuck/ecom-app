@@ -1,0 +1,23 @@
+/* Image-led catalog; colors follow the store's monochrome palette. */
+.product-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:2.5rem 1.5rem; }
+.product-card { display:flex; min-width:0; flex-direction:column; }
+.product-image-link { display:flex; align-items:center; justify-content:center; overflow:hidden; aspect-ratio:1; background:#f3f3f3; }
+.product-image { display:block; width:100%; height:100%; padding:1.25rem; object-fit:contain; transition:transform 180ms ease; }
+@media(hover:hover) { .product-image-link:hover .product-image { transform:scale(1.035); } }
+.product-image-placeholder { padding:1rem; color:#666; font-size:.9rem; }
+.product-card-content { display:flex; flex:1; flex-direction:column; align-items:flex-start; gap:.35rem; padding:.9rem 0 0; }
+.product-name-link { order:0; color:#111; text-decoration:none; }
+.product-name-link:hover { text-decoration:underline; text-underline-offset:.2em; }
+.product-name { margin:0; color:#111; font-size:1rem; line-height:1.4; font-weight:500; }
+.product-variation-count { order:2; margin:0; color:#666; font-size:.78rem; }
+.product-excerpt { display:none; }
+.product-price { order:1; margin:0; color:#111; font-size:1rem; font-weight:600; }
+.price-prefix { font-size:.85rem; font-weight:400; }
+.product-add-button { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; width:fit-content; min-height:44px; padding:.5rem 0; border:0; border-bottom:1px solid #111; border-radius:0; background:transparent; color:#111; font:inherit; font-size:.85rem; text-decoration:none; cursor:pointer; }
+.product-card-content .product-add-button { order:3; margin-top:.25rem; }
+.product-add-button:hover { color:#555; border-color:#555; }
+.product-add-button:disabled { color:#777; border-color:transparent; cursor:default; }
+a:focus-visible,button:focus-visible,select:focus-visible { outline:2px solid #111; outline-offset:4px; }
+@media(min-width:600px) { .product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(min-width:960px) { .product-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(prefers-reduced-motion:reduce) { .product-image { transition:none; } .product-image-link:hover .product-image { transform:none; } }

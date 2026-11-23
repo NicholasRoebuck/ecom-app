@@ -1,0 +1,1 @@
+ALTER TABLE product MODIFY COLUMN variant_configuration LONGTEXT NULL;

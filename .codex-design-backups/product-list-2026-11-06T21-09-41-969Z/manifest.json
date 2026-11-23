@@ -1,0 +1,15 @@
+{
+  "description": "Before premium boutique product listing CSS pass",
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list.component.css",
+      "backup": "product-list.component.css",
+      "sha256": "be13a136a576b9dba8c68dca93ec1df0ce96f0189c2bb1af9e12688e8ecb7d36"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-catalog.css",
+      "backup": "product-catalog.css",
+      "sha256": "ec13cbab9e96f0362a6a264d842d7100f4ebc4a178e0159f71bb1ec54f5d0f4c"
+    }
+  ]
+}

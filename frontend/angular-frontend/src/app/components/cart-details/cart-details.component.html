@@ -2,6 +2,18 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
 
+            <div *ngIf="pendingCheckout.hasPendingCheckout" class="alert alert-info" role="status">
+                You have a saved checkout. Its items may already be reserved for you.
+                <a routerLink="/checkout" class="btn btn-primary btn-sm">Resume checkout</a>
+            </div>
+            <p *ngIf="refreshing" role="status">Checking current prices and availability...</p>
+            <div *ngIf="error" class="alert alert-danger" role="alert">
+                {{ error }} <button type="button" (click)="refreshPrices()" [disabled]="refreshing">Retry</button>
+            </div>
+            <div *ngIf="changes.length" class="alert alert-info" role="status">
+                Prices have changed since your last visit:
+                <ul><li *ngFor="let change of changes">{{ change.name }}: {{ change.previous | currency:'USD' }} to {{ change.current | currency:'USD' }}</li></ul>
+            </div>
             <div *ngIf="cartItems.length > 0">
                 <table class="table table-bordered">
                     <tr>
@@ -17,6 +29,7 @@
                         <td>
                             <p>{{ cartItem.name }}</p>
                             <p>{{ cartItem.unitPrice | currency:'USD'}}</p>
+                            <p *ngIf="cartItem.availabilityMessage" class="text-danger" role="status">{{ cartItem.availabilityMessage }}</p>
                         </td>
                         <td>
                             <div class="items">
@@ -25,8 +38,8 @@
                                 <div class="row no-gutters">
                                     <!-- increment button -->
                                     <div class="col">
-                                        <button (click)="incrementQuantity(cartItem)" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-plus"></i>
+                                        <button (click)="incrementQuantity(cartItem)" [attr.aria-label]="'Increase quantity for ' + cartItem.name" [disabled]="refreshing" class="btn btn-primary btn-sm">
+                                            <svg class="quantity-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc. --><path fill="currentColor" d="M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"/></svg>
                                         </button>
                                     </div>
 
@@ -37,14 +50,14 @@
                                     <!-- decrement button -->
 
                                     <div class="col">
-                                        <button (click)="decrementQuantity(cartItem)" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-minus"></i>
+                                        <button (click)="decrementQuantity(cartItem)" [attr.aria-label]="'Decrease quantity for ' + cartItem.name" [disabled]="refreshing" class="btn btn-primary btn-sm">
+                                            <svg class="quantity-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc. --><path fill="currentColor" d="M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z"/></svg>
                                         </button>
                                     </div>
 
                                     <div class="col-8"></div>
                                 </div>
-                                <button (click)="remove(cartItem)" class="btn btn-primary btn-sm mt-2">REMOVE</button>
+                                <button (click)="remove(cartItem)" [disabled]="refreshing" class="btn btn-primary btn-sm mt-2">REMOVE</button>
                             </div>
 
                             <p class="mt-2">Subtotal: {{ cartItem.quantity * cartItem.unitPrice | currency:'USD' }}</p>
@@ -57,7 +70,7 @@
                             <p>Total Quantity: {{ totalQuantity }}</p>
                             <p>Shipping: FREE</p>
                             <p>Total Price: {{ totalPrice | currency:'USD' }}</p>
-                            <div class="col"><a routerLink="/checkout" class="btn btn-primary mt-2 btn-sm">CHECKOUT</a></div>
+                            <div class="col"><a *ngIf="pricingReady && !refreshing" routerLink="/checkout" class="btn btn-primary mt-2 btn-sm">CHECKOUT</a><button *ngIf="!pricingReady || refreshing" class="btn btn-primary mt-2 btn-sm" disabled>CHECKOUT</button></div>
                         </td>
                     </tr>
                 </table>

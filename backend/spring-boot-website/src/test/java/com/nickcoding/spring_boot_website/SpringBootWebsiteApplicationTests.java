@@ -3,7 +3,7 @@ package com.nickcoding.spring_boot_website;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(properties = "checkout.reconciliation.enabled=false")
 class SpringBootWebsiteApplicationTests {
 
 	@Test

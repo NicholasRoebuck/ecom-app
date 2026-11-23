@@ -8,6 +8,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -24,7 +28,7 @@ public class ProductVariant {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "sku")
+    @Column(name = "sku", unique = true)
     private String sku;
 
     @Column(name = "unit_price")
@@ -38,6 +42,19 @@ public class ProductVariant {
 
     @Column(name = "units_in_stock")
     private int unitsInStock;
+
+    @ElementCollection
+    @CollectionTable(name = "product_variant_option", joinColumns = @JoinColumn(name = "variant_id"))
+    @MapKeyColumn(name = "option_name", length = 64)
+    @Column(name = "option_value", nullable = false, length = 128)
+    private Map<String, String> options = new LinkedHashMap<>();
+
+    public String displayName() {
+        String label = new TreeMap<>(options).entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue()).collect(Collectors.joining(", "));
+        if (label.isEmpty() && product.getVariants().size() > 1) label = sku;
+        return product.getName() + (label == null || label.isEmpty() ? "" : " (" + label + ")");
+    }
 
     @CreationTimestamp
     @Column(name = "date_created")

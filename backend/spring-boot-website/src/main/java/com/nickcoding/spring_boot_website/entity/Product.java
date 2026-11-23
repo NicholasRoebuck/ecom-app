@@ -33,6 +33,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductVariant> variants = new ArrayList<>();
 
+    @Column(name = "variant_configuration", columnDefinition = "LONGTEXT")
+    private String variantConfiguration;
+
     @CreationTimestamp
     @Column(name = "date_created")
     private Date dateCreated;

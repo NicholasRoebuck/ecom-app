@@ -1,13 +1,8 @@
-@media (max-width: 991px) {
-    :host,
-    .form-header {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .search-input {
-        width: 0;
-        min-width: 0;
-        flex: 1 1 0;
-    }
+:host { display:block; min-width:0; }
+.form-header { display:flex; align-items:center; width:100%; min-width:0; }
+.form-header .search-input { width:0; min-width:0; flex:1 1 0; transition:border-color 180ms ease,box-shadow 180ms ease; }
+.form-header .pill-button { flex:0 0 auto; }
+@media(max-width:1599px) {
+  :host { width:100%; }
+  .form-header .search-input,.form-header .pill-button { min-height:44px; height:auto; }
 }

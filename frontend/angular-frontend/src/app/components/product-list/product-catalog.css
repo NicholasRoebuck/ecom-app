@@ -1,0 +1,20 @@
+.product-list-page { max-width:1320px; margin:0 auto; padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,4vw,2.5rem) 4rem; color:#111; background:#fff; min-height:70vh; }
+.collection-header { padding-bottom:1.5rem; max-width:760px; }
+.collection-breadcrumbs { display:flex; flex-wrap:wrap; gap:.65rem; align-items:center; margin-bottom:1.25rem; font-size:.8rem; color:#666; }
+.collection-breadcrumbs a { color:#555; text-decoration:none; }
+.collection-breadcrumbs a:hover { color:#111; text-decoration:underline; }
+.collection-eyebrow { text-transform:uppercase; font-size:.72rem; letter-spacing:.18em; color:#666; margin:0 0 .85rem; }
+.collection-header h1 { font-size:clamp(2rem,4vw,3.25rem); line-height:1.15; font-weight:500; letter-spacing:-.035em; margin:0 0 1rem; color:#111; }
+.collection-description { margin:0; max-width:560px; font-size:1rem; line-height:1.75; color:#555; }
+.catalog-toolbar { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; border-bottom:1px solid #ddd; padding:0 0 1rem; margin-bottom:1.5rem; }
+.catalog-count { margin:0; font-size:.85rem; color:#555; }
+.catalog-controls { display:flex; flex-wrap:wrap; gap:1rem; }
+.catalog-control { display:flex; align-items:center; gap:.5rem; font-size:.8rem; margin:0; color:#555; }
+.catalog-control select { max-width:200px; min-height:44px; padding:.5rem .35rem; border:0; border-bottom:1px solid #bbb; border-radius:0; background:#fff; color:#111; font:inherit; }
+.catalog-message { grid-column:1/-1; padding:3rem 1rem; text-align:center; }
+.catalog-message h2 { font-size:1.4rem; }
+.catalog-message a { color:#111; text-underline-offset:.2em; }
+.product-list-pagination { display:flex; justify-content:center; padding-top:3rem; }
+:host ::ng-deep .product-list-pagination .page-link { color:#111; border-color:#ccc; }
+:host ::ng-deep .product-list-pagination .active .page-link { color:#fff; background:#111; border-color:#111; }
+@media(max-width:600px) { .collection-breadcrumbs { margin-bottom:1.75rem; } .catalog-controls { width:100%; gap:.75rem; } .catalog-control { flex:1; flex-direction:column; align-items:flex-start; } .catalog-control select { width:100%; } }

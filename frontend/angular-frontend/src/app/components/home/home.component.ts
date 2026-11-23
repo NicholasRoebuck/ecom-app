@@ -1,3 +1,4 @@
+import { STORE_DEPARTMENTS } from '../../common/store-departments';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductCategoryNav } from '../../common/product-category-nav';
@@ -15,8 +16,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getTopLevelCategories().subscribe(departments => {
-      this.hearingDepartment = departments.find(dept => dept.categoryName.toLowerCase() === 'hearing');
-      this.visionDepartment = departments.find(dept => dept.categoryName.toLowerCase() === 'vision');
+      this.hearingDepartment = departments.find(dept => dept.id === STORE_DEPARTMENTS.hearing);
+      this.visionDepartment = departments.find(dept => dept.id === STORE_DEPARTMENTS.vision);
     });
   }
 }

@@ -1,0 +1,22 @@
+.admin-page { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem; color: #111; }
+.admin-panel { padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid #ddd; border-radius: 18px; background: #fff; }
+.admin-panel h1 { color: #111; margin-bottom: 1rem; }
+.admin-panel p { margin-bottom: 1.5rem; }
+.admin-actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.admin-button { padding: 0.65rem 1.25rem; border: 1px solid #000; border-radius: 999px; background: #000; color: #fff; font: inherit; }
+.admin-button:hover { background: #292929; color: #fff; }
+.admin-panel a:not(.admin-button) { color: #111; text-decoration: underline; text-underline-offset: 0.2em; }
+.admin-panel a:focus-visible, .admin-button:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+input:not([type=checkbox]), select, textarea { width: 100%; border: 1px solid #888; border-radius: 8px; padding: .7rem .8rem; background: #fff; color: #111; font: inherit; box-sizing: border-box; }
+label { display: block; font-weight: 600; margin: .85rem 0 .4rem; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched { border-color: #a51d24; }
+button { cursor: pointer; font: inherit; }
+button:disabled { opacity: .5; cursor: default; }
+.notice { background: #edf5ed; border: 1px solid #b8d3b8; padding: .9rem 1rem; border-radius: 8px; }
+.error-box { background: #fff1f1; color: #82151c; border: 1px solid #d9a4a4; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+.error-box button { display: block; margin-top: .75rem; }
+
+.admin-heading { margin-bottom: 2rem; }
+.eyebrow { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: #555; }
+.admin-heading h1 { margin: .5rem 0 0; }

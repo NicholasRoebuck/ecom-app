@@ -16,7 +16,7 @@
 
   <div class="split">
 
-    <a class="panel panel--hearing" [routerLink]="hearingDepartment ? ['/category', hearingDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" aria-label="Hearing services">
+    <a class="panel panel--hearing" [routerLink]="hearingDepartment ? ['/category', hearingDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" [attr.aria-label]="hearingDepartment?.categoryName">
       <img src="https://placehold.co/900x1100/2e2fa0/2e2fa0" alt="">
       <div class="panel-copy">
         <div class="panel-label">
@@ -24,7 +24,7 @@
             <path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h4"/>
             <path d="M4 12v3a3 3 0 0 0 3 3"/>
           </svg>
-          <h2>Hearing</h2>
+          <h2>{{ hearingDepartment?.categoryName || 'Hearing' }}</h2>
         </div>
         <p>Hearing tests, hearing aid fittings, and routine checkups.</p>
         <span class="panel-cta">
@@ -34,7 +34,7 @@
       </div>
     </a>
 
-    <a class="panel panel--vision" [routerLink]="visionDepartment ? ['/category', visionDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" aria-label="Vision services">
+    <a class="panel panel--vision" [routerLink]="visionDepartment ? ['/category', visionDepartment.id] : null" [queryParams]="{ includeDescendants: true }" [state]="{ scrollToTop: true }" [attr.aria-label]="visionDepartment?.categoryName">
       <img src="/assets/images/pilla-logo.jpg" alt="Pilla Performance Eyewear" class="vision-brand-image">
       <img src="/assets/images/pilla-x6-transparent.png" alt="Pilla X6 shooting glasses with a pink lens" class="vision-product-image" width="1536" height="1024">
     </a>

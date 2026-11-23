@@ -1,38 +1,46 @@
 package com.nickcoding.spring_boot_website.controller;
 
-import com.nickcoding.spring_boot_website.dao.PaymentInfo;
-import com.nickcoding.spring_boot_website.dto.Purchase;
-import com.nickcoding.spring_boot_website.dto.PurchaseResponse;
+import com.nickcoding.spring_boot_website.dto.*;
 import com.nickcoding.spring_boot_website.service.CheckoutService;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {
+    private final CheckoutService checkout;
+    private final com.nickcoding.spring_boot_website.service.CheckoutPricingService pricing;
+    public CheckoutController(CheckoutService checkout, com.nickcoding.spring_boot_website.service.CheckoutPricingService pricing) { this.checkout = checkout; this.pricing = pricing; }
 
-    private CheckoutService checkoutService;
+    @PostMapping("/quote")
+    public CartQuote quote(@RequestBody CartQuote.Request request) { return pricing.quote(request.items()); }
 
-    public CheckoutController(CheckoutService checkoutService){
-        this.checkoutService = checkoutService;
+    @PostMapping("/cancel")
+    public void cancel(@RequestBody CheckoutTokenRequest request, @AuthenticationPrincipal Jwt principal) throws StripeException { checkout.authorize(request.checkoutToken(), OrderOwner.optional(principal)); checkout.cancel(request.checkoutToken()); }
+
+    @PostMapping("/resume")
+    public CheckoutSummary resume(@RequestBody CheckoutTokenRequest request, @AuthenticationPrincipal Jwt principal) throws StripeException { checkout.authorize(request.checkoutToken(), OrderOwner.optional(principal)); return checkout.resume(request.checkoutToken()); }
+
+    @PostMapping("/details")
+    public CheckoutDetails details(@RequestBody CheckoutTokenRequest request, @AuthenticationPrincipal Jwt principal) {
+        return checkout.details(request.checkoutToken(), OrderOwner.optional(principal));
     }
 
-    @PostMapping("/purchase")
-    public PurchaseResponse placeOrder(@RequestBody Purchase purchase){
-        PurchaseResponse purchaseResponse = checkoutService.placeOrder(purchase);
-        return purchaseResponse;
+    @PostMapping("/review")
+    public CheckoutSummary review(@RequestBody CheckoutRequest request,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.oauth2.jwt.Jwt principal) {
+        return checkout.review(request, OrderOwner.optional(principal));
     }
 
     @PostMapping("/payment-intent")
-    public ResponseEntity<String> createPaymentIntent(@RequestBody PaymentInfo paymentInfo) throws StripeException {
-
-        PaymentIntent paymentIntent = checkoutService.createPaymentIntent(paymentInfo);
-        String paymentString = paymentIntent.toJson();
-
-        return new ResponseEntity<>(paymentString, HttpStatus.OK);
+    public CheckoutPaymentResponse payment(@RequestBody CheckoutTokenRequest request, @AuthenticationPrincipal Jwt principal) throws StripeException { checkout.authorize(request.checkoutToken(), OrderOwner.optional(principal));
+        return checkout.createPaymentIntent(request.checkoutToken());
     }
 
+    @PostMapping("/purchase")
+    public PurchaseResponse confirm(@RequestBody CheckoutTokenRequest request, @AuthenticationPrincipal Jwt principal) throws StripeException { checkout.authorize(request.checkoutToken(), OrderOwner.optional(principal));
+        return checkout.placeOrder(request.checkoutToken());
+    }
 }

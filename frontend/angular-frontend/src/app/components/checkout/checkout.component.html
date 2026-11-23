@@ -1,9 +1,32 @@
-<div class="main-content checkout-page">
+<div class="main-content checkout-page" [attr.data-checkout-state]="state">
     <div class="section-content section-content-p30">
         <div class="container-fluid">
 
-            <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+            <section *ngIf="!confirmation" class="checkout-review" aria-labelledby="checkout-review-title">
+                <h2 id="checkout-review-title">Review your order</h2>
+            </section>
+            <div *ngIf="confirmation" #paymentConfirmation class="alert alert-success payment-confirmation" role="status" tabindex="-1">
+                Your payment is confirmed. Order tracking number: {{ confirmation }}
+                <a routerLink="/products">Continue shopping</a>
+            </div>
+            <div *ngIf="checkoutError" class="alert alert-danger" role="alert">{{ checkoutError }}</div>
+            <ul *ngIf="generalFieldErrors.length" class="alert alert-danger" role="alert">
+                <li *ngFor="let message of generalFieldErrors">{{ message }}</li>
+                <li *ngIf="hasCartFieldErrors"><a routerLink="/cart-details">Update your cart</a></li>
+            </ul>
+            <div *ngIf="paymentNotice && !confirmation && summary?.status !== 'PAYMENT_FAILED'" class="alert alert-info" role="status">{{ paymentNotice }}</div>
+            <p *ngIf="pricingLoading" role="status">Checking current prices and availability...</p>
+            <div *ngIf="priceChangeNotice" class="alert alert-info" role="status">{{ priceChangeNotice }}</div>
+            <div *ngIf="!pricingLoading && !pricingReady && !summary && !confirmation">
+                <a routerLink="/cart-details">Return to cart</a>
+            </div>
+            <div *ngIf="legacyCheckoutAvailable && !confirmation" class="alert alert-info">
+                An earlier checkout is saved in this browser. If you recently attempted payment, check its status before paying again.
+                <button type="button" class="btn btn-outline-secondary" (click)="recoverPreviousCheckout()" [disabled]="isDisabled">Check previous checkout</button>
+            </div>
+            <form #checkoutForm [hidden]="!!confirmation || pricingLoading || cartNeedsSync || (!pricingReady && !summary)" [attr.autocomplete]="isSignedIn ? 'on' : 'off'" [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
 
+                <fieldset [disabled]="formLocked">
                 <!-- customer FormGroup -->
                 <div formGroupName="customer" class="form-area">
                     <h3>Customer</h3>
@@ -11,10 +34,11 @@
                         <div class="col-md-2"><label>First Name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="firstName" type="text">
+                                <input id="checkout-customer-firstName" [attr.aria-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)" [attr.aria-describedby]="firstName.invalid && (firstName.dirty || firstName.touched) ? 'checkout-customer-firstName-errors' : null" formControlName="firstName" type="text">
 
                                 <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-customer-firstName-errors" role="alert">
+                                    <div *ngIf="firstName.errors?.['server']">{{ firstName.errors?.['server'] }}</div>
 
                                     <div *ngIf="firstName.errors['required'] || firstName.errors['notOnlyWhiteSpace']">
                                         First Name is required
@@ -33,10 +57,11 @@
                         <div class="col-md-2"><label>Last Name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="lastName" type="text">
+                                <input id="checkout-customer-lastName" [attr.aria-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)" [attr.aria-describedby]="lastName.invalid && (lastName.dirty || lastName.touched) ? 'checkout-customer-lastName-errors' : null" formControlName="lastName" type="text">
 
                                 <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-customer-lastName-errors" role="alert">
+                                    <div *ngIf="lastName.errors?.['server']">{{ lastName.errors?.['server'] }}</div>
 
                                     <div *ngIf="lastName.errors['required'] || lastName.errors['notOnlyWhiteSpace']">
                                         Last Name is required
@@ -53,20 +78,21 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"><label>Email</label></div>
+                        <div class="col-md-2"><label for="checkout-email">Email</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="email" type="text">
+                                <input id="checkout-email" formControlName="email" type="text" [attr.autocomplete]="isSignedIn ? 'email' : 'off'" [attr.aria-invalid]="email.invalid && (email.dirty || email.touched)" [attr.aria-describedby]="email.invalid && (email.dirty || email.touched) ? 'checkout-email-error' : null">
 
-                                <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                <div id="checkout-email-error" role="alert" *ngIf="email.invalid && (email.dirty || email.touched)"
                                     class="alert alert-danger mt-1">
+                                    <div *ngIf="email.errors?.['server']">{{ email.errors?.['server'] }}</div>
 
                                     <div *ngIf="email.errors['required']">
                                         Email is required
                                     </div>
 
-                                    <div *ngIf="email.errors['pattern']">
-                                        Email must be a valid format
+                                    <div *ngIf="email.errors['email']">
+                                        Please enter a valid email address
                                     </div>
 
                                 </div>
@@ -84,13 +110,14 @@
                         <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country" (change)="getStates('shippingAddress')">
+                                <select id="checkout-shippingAddress-country" [attr.aria-invalid]="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)" [attr.aria-describedby]="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched) ? 'checkout-shippingAddress-country-errors' : null" formControlName="country" (change)="getStates('shippingAddress')">
                                     <option *ngFor="let country of countries" [ngValue]="country">
                                         {{ country.name }}
                                     </option>
                                 </select>
                                 <div *ngIf="shippingAddressCountry.invalid && (shippingAddressCountry.dirty || shippingAddressCountry.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-shippingAddress-country-errors" role="alert">
+                                    <div *ngIf="shippingAddressCountry.errors?.['server']">{{ shippingAddressCountry.errors?.['server'] }}</div>
 
                                     <div *ngIf="shippingAddressCountry.errors['required']">
                                         Country is required
@@ -105,13 +132,14 @@
                         <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="state">
+                                <select id="checkout-shippingAddress-state" [attr.aria-invalid]="shippingAddressState.invalid && (shippingAddressState.dirty || shippingAddressState.touched)" [attr.aria-describedby]="shippingAddressState.invalid && (shippingAddressState.dirty || shippingAddressState.touched) ? 'checkout-shippingAddress-state-errors' : null" formControlName="state">
                                     <option *ngFor="let state of shippingAddressStates" [ngValue]="state">
                                         {{ state.name }}
                                     </option>
                                 </select>
                                 <div *ngIf="shippingAddressState.invalid && (shippingAddressState.dirty || shippingAddressState.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-shippingAddress-state-errors" role="alert">
+                                    <div *ngIf="shippingAddressState.errors?.['server']">{{ shippingAddressState.errors?.['server'] }}</div>
 
                                     <div *ngIf="shippingAddressState.errors['required']">
                                         State is required
@@ -125,9 +153,10 @@
                         <div class="col-md-2"><label>City</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="city" type="text">
+                                <input id="checkout-shippingAddress-city" [attr.aria-invalid]="shippingAddressCity.invalid && (shippingAddressCity.dirty || shippingAddressCity.touched)" [attr.aria-describedby]="shippingAddressCity.invalid && (shippingAddressCity.dirty || shippingAddressCity.touched) ? 'checkout-shippingAddress-city-errors' : null" formControlName="city" type="text">
                                 <div *ngIf="shippingAddressCity.invalid && (shippingAddressCity.dirty || shippingAddressCity.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-shippingAddress-city-errors" role="alert">
+                                    <div *ngIf="shippingAddressCity.errors?.['server']">{{ shippingAddressCity.errors?.['server'] }}</div>
 
                                     <div
                                         *ngIf="shippingAddressCity.errors['required'] || shippingAddressCity.errors['notOnlyWhiteSpace']">
@@ -145,9 +174,10 @@
                         <div class="col-md-2"><label>Street</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="street" type="text">
+                                <input id="checkout-shippingAddress-street" [attr.aria-invalid]="shippingAddressStreet.invalid && (shippingAddressStreet.dirty || shippingAddressStreet.touched)" [attr.aria-describedby]="shippingAddressStreet.invalid && (shippingAddressStreet.dirty || shippingAddressStreet.touched) ? 'checkout-shippingAddress-street-errors' : null" formControlName="street" type="text">
                                 <div *ngIf="shippingAddressStreet.invalid && (shippingAddressStreet.dirty || shippingAddressStreet.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-shippingAddress-street-errors" role="alert">
+                                    <div *ngIf="shippingAddressStreet.errors?.['server']">{{ shippingAddressStreet.errors?.['server'] }}</div>
 
                                     <div
                                         *ngIf="shippingAddressStreet.errors['required'] || shippingAddressStreet.errors['notOnlyWhiteSpace']">
@@ -165,9 +195,10 @@
                         <div class="col-md-2"><label>Zip Code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="zipCode" type="text">
+                                <input id="checkout-shippingAddress-zipCode" [attr.aria-invalid]="shippingAddressZipcode.invalid && (shippingAddressZipcode.dirty || shippingAddressZipcode.touched)" [attr.aria-describedby]="shippingAddressZipcode.invalid && (shippingAddressZipcode.dirty || shippingAddressZipcode.touched) ? 'checkout-shippingAddress-zipCode-errors' : null" formControlName="zipCode" type="text">
                                 <div *ngIf="shippingAddressZipcode.invalid && (shippingAddressZipcode.dirty || shippingAddressZipcode.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-shippingAddress-zipCode-errors" role="alert">
+                                    <div *ngIf="shippingAddressZipcode.errors?.['server']">{{ shippingAddressZipcode.errors?.['server'] }}</div>
 
                                     <div
                                         *ngIf="shippingAddressZipcode.errors['required'] || shippingAddressZipcode.errors['notOnlyWhiteSpace']">
@@ -195,13 +226,14 @@
                         <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country" (change)="getStates('billingAddress')">
+                                <select id="checkout-billingAddress-country" [attr.aria-invalid]="billingAddressCountry.invalid && (billingAddressCountry.dirty || billingAddressCountry.touched)" [attr.aria-describedby]="billingAddressCountry.invalid && (billingAddressCountry.dirty || billingAddressCountry.touched) ? 'checkout-billingAddress-country-errors' : null" formControlName="country" (change)="getStates('billingAddress')">
                                     <option *ngFor="let country of countries" [ngValue]="country">
                                         {{ country.name }}
                                     </option>
                                 </select>
                                 <div *ngIf="billingAddressCountry.invalid && (billingAddressCountry.dirty || billingAddressCountry.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-billingAddress-country-errors" role="alert">
+                                    <div *ngIf="billingAddressCountry.errors?.['server']">{{ billingAddressCountry.errors?.['server'] }}</div>
 
                                     <div *ngIf="billingAddressCountry.errors['required']">
                                         Country is required
@@ -215,13 +247,14 @@
                         <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="state">
+                                <select id="checkout-billingAddress-state" [attr.aria-invalid]="billingAddressState.invalid && (billingAddressState.dirty || billingAddressState.touched)" [attr.aria-describedby]="billingAddressState.invalid && (billingAddressState.dirty || billingAddressState.touched) ? 'checkout-billingAddress-state-errors' : null" formControlName="state">
                                     <option *ngFor="let state of billingAddressStates" [ngValue]="state">
                                         {{ state.name }}
                                     </option>
                                 </select>
                                 <div *ngIf="billingAddressState.invalid && (billingAddressState.dirty || billingAddressState.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-billingAddress-state-errors" role="alert">
+                                    <div *ngIf="billingAddressState.errors?.['server']">{{ billingAddressState.errors?.['server'] }}</div>
 
                                     <div *ngIf="billingAddressState.errors['required']">
                                         State is required
@@ -235,9 +268,10 @@
                         <div class="col-md-2"><label>City</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="city" type="text">
+                                <input id="checkout-billingAddress-city" [attr.aria-invalid]="billingAddressCity.invalid && (billingAddressCity.dirty || billingAddressCity.touched)" [attr.aria-describedby]="billingAddressCity.invalid && (billingAddressCity.dirty || billingAddressCity.touched) ? 'checkout-billingAddress-city-errors' : null" formControlName="city" type="text">
                                 <div *ngIf="billingAddressCity.invalid && (billingAddressCity.dirty || billingAddressCity.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-billingAddress-city-errors" role="alert">
+                                    <div *ngIf="billingAddressCity.errors?.['server']">{{ billingAddressCity.errors?.['server'] }}</div>
                                     <div
                                         *ngIf="billingAddressCity.errors['required'] || billingAddressCity.errors['notOnlyWhiteSpace']">
                                         City is required
@@ -254,9 +288,10 @@
                         <div class="col-md-2"><label>Street</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="street" type="text">
+                                <input id="checkout-billingAddress-street" [attr.aria-invalid]="billingAddressStreet.invalid && (billingAddressStreet.dirty || billingAddressStreet.touched)" [attr.aria-describedby]="billingAddressStreet.invalid && (billingAddressStreet.dirty || billingAddressStreet.touched) ? 'checkout-billingAddress-street-errors' : null" formControlName="street" type="text">
                                 <div *ngIf="billingAddressStreet.invalid && (billingAddressStreet.dirty || billingAddressStreet.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-billingAddress-street-errors" role="alert">
+                                    <div *ngIf="billingAddressStreet.errors?.['server']">{{ billingAddressStreet.errors?.['server'] }}</div>
 
                                     <div
                                         *ngIf="billingAddressStreet.errors['required'] || billingAddressStreet.errors['notOnlyWhiteSpace']">
@@ -274,9 +309,10 @@
                         <div class="col-md-2"><label>Zip Code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="zipCode" type="text">
+                                <input id="checkout-billingAddress-zipCode" [attr.aria-invalid]="billingAddressZipcode.invalid && (billingAddressZipcode.dirty || billingAddressZipcode.touched)" [attr.aria-describedby]="billingAddressZipcode.invalid && (billingAddressZipcode.dirty || billingAddressZipcode.touched) ? 'checkout-billingAddress-zipCode-errors' : null" formControlName="zipCode" type="text">
                                 <div *ngIf="billingAddressZipcode.invalid && (billingAddressZipcode.dirty || billingAddressZipcode.touched)"
-                                    class="alert alert-danger mt-1">
+                                    class="alert alert-danger mt-1" id="checkout-billingAddress-zipCode-errors" role="alert">
+                                    <div *ngIf="billingAddressZipcode.errors?.['server']">{{ billingAddressZipcode.errors?.['server'] }}</div>
 
                                     <div
                                         *ngIf="billingAddressZipcode.errors['required'] || billingAddressZipcode.errors['notOnlyWhiteSpace']">
@@ -291,6 +327,7 @@
                     </div>
                 </div>
 
+                </fieldset>
                 <!-- Credit Card FormGroup -->
                 
                 <!-- Stripe Elements -->
@@ -303,25 +340,29 @@
                     </div>
 
                     <!-- Displays errors -->
-                    <div id="card-errors" class="displayError.textContent!=='': 'alert alert-danger mt-1'">
-
-                    </div>
+                    <div *ngIf="cardErrorMessage" id="card-errors" class="alert alert-danger mt-1" role="alert">{{ cardErrorMessage }}</div>
                  </div>
 
                  
 
-                <!-- Order details -->
                 <div class="form-area">
-                    <h3>Review Your Order</h3>
-
-                    <p>Total Quantity: {{ totalQuantity }}</p>
+                    <h3>Your Order</h3>
+                    <ul *ngIf="!summary">
+                        <li *ngFor="let item of cartItems">{{ item.name }} - {{ (item.quantity * item.unitPrice) | currency:'USD' }}</li>
+                    </ul>
+                    <ul *ngIf="summary">
+                        <li *ngFor="let item of summary.items">{{ item.name }} - {{ item.subtotal | currency:'USD' }}</li>
+                    </ul>
+                    <p>Total quantity: {{ summary ? summary.totalQuantity : totalQuantity }}</p>
                     <p>Shipping: FREE</p>
-                    <p>Total Price: {{ totalPrice }}</p>
+                    <p>Total: {{ (summary ? summary.totalPrice : totalPrice) | currency:'USD' }}</p>
+                    <ng-container *ngIf="summary">
+                    </ng-container>
                 </div>
-
-                <!-- Submit button -->
                 <div class="text-center">
-                    <button type="submit" class="btn purchase-button" [disabled]="isDisabled">PURCHASE</button>
+                    <button type="submit" class="btn purchase-button" [disabled]="!canPay">
+                        {{ isDisabled ? 'Please wait...' : 'Pay ' + ((summary ? summary.totalPrice : totalPrice) | currency:'USD') }}
+                    </button>
                 </div>
             </form>
         </div>

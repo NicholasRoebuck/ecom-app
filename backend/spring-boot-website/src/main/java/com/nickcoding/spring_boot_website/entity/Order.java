@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = @Index(name = "idx_orders_owner", columnList = "owner_issuer,owner_subject"))
 @Getter
 @Setter
 public class Order {
@@ -30,6 +30,29 @@ public class Order {
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Column(name = "checkout_token", unique = true, length = 36)
+    private String checkoutToken;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Column(name = "payment_intent_id", unique = true)
+    private String paymentIntentId;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Column(name = "owner_issuer", length = 255)
+    private String ownerIssuer;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Column(name = "owner_subject", length = 255)
+    private String ownerSubject;
+
+    @Column(name = "currency", length = 3)
+    private String currency;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Column(name = "inventory_status", nullable = false, length = 16)
+    private String inventoryStatus = "NONE";
 
     @Column(name = "status")
     private String status;

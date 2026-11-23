@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/app.module.ts",
+      "backup": "app.module.ts",
+      "sha256": "39c9ea5fe8a1a04b24cf78bee22f4ee4141e216a9870384c6c52baf00c507295"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/checkout/checkout.component.ts",
+      "backup": "components__checkout__checkout.component.ts",
+      "sha256": "8369a214e5f76e4078c53fd4b34d7b6076ad3a1f4e420af3c5303a4adf566107"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/checkout/checkout.component.spec.ts",
+      "backup": "components__checkout__checkout.component.spec.ts",
+      "sha256": "6023e3637ce79fc78a8acbec5a89c7dd6bdfcd9c99e49e3c4d3abcd3e60f5138"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/members-page/members-page.component.ts",
+      "backup": "components__members-page__members-page.component.ts",
+      "sha256": "e42e48592c3bca13242f1c05b5db6ce29bc69f184fbc230de2f2403c853c0d32"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/members-page/members-page.component.spec.ts",
+      "backup": "components__members-page__members-page.component.spec.ts",
+      "sha256": "bd71ee4928af1889360c098adbffef21d889bd26c87ab6c11bfc2d012274caa7"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/order-history/order-history.component.ts",
+      "backup": "components__order-history__order-history.component.ts",
+      "sha256": "2c76dafe3e7c90b6c4530e3c88333242b76ad24a1b0760efe5e4dd770d775521"
+    }
+  ]
+}

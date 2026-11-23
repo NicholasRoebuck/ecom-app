@@ -36,8 +36,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": []
           },
@@ -57,7 +56,7 @@
               ],
               "outputHashing": "all"
             },
-            "qa":{
+            "qa": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -75,6 +74,27 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "preview": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.preview.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -85,7 +105,7 @@
             "production": {
               "buildTarget": "angular-frontend:build:production"
             },
-            "qa":{
+            "qa": {
               "buildTarget": "angular-frontend:build:qa"
             },
             "development": {

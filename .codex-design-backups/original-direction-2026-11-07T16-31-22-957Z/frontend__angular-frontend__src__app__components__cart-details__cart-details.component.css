@@ -1,0 +1,18 @@
+:host{display:block;background:#fff}
+.cart-details-page{padding:clamp(2rem,5vw,4rem) clamp(1rem,4vw,3rem) 5rem;color:#161616;font-family:inherit;font-size:.9rem}
+.cart-details-page .section-content{padding:0}.cart-details-page .container-fluid{max-width:1140px;margin:auto;padding:0}
+.cart-details-page .table{width:100%;margin:1.75rem 0;background:#fff;border-color:#ddd;color:#161616}
+.cart-details-page .table td{padding:1.5rem;vertical-align:top;border-color:#e5e5e5}
+.cart-details-page .cart-table-header{padding:1rem 1.5rem;background:#f4f4f4;color:#333;border-color:#ddd;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.cart-details-page .table img{max-width:100%;height:auto;object-fit:contain;border-radius:0}
+.cart-details-page .table td:nth-child(2)>p:first-child{font-family:Arial,Helvetica,sans-serif;font-size:1.3rem;line-height:1.35}
+.cart-details-page .table p{line-height:1.6}.cart-details-page .items label{font-size:.75rem;color:#666;margin-bottom:.75rem}
+.cart-details-page .btn-primary{background:#111;border:1px solid #111;color:#fff;border-radius:0;box-shadow:none;min-height:40px;padding:.5rem .8rem;font-family:inherit;font-size:.75rem}
+.cart-details-page .btn-primary:hover:not(:disabled){background:#333;border-color:#333}.cart-details-page .btn:disabled{opacity:.5}
+.cart-details-page .table tr:last-child td{background:#f6f6f6;font-weight:500}
+.cart-details-page .table tr:last-child td:last-child>p:last-of-type{padding-top:.75rem;border-top:1px solid #ddd;font-size:1.1rem}
+.cart-details-page .table tr:last-child a.btn{display:block;text-align:center;padding:.8rem}
+.cart-details-page .alert{border-radius:0;padding:1rem 1.25rem;font-size:.85rem;line-height:1.7}
+.cart-details-page .alert-info{background:#f4f4f4;border-color:#ddd;color:#111}
+.cart-details-page button:focus-visible,.cart-details-page a:focus-visible{outline:2px solid #111;outline-offset:3px}
+@media(max-width:650px){.cart-details-page .table,.cart-details-page tbody{display:block}.cart-details-page tr{display:grid;grid-template-columns:80px minmax(0,1fr);padding:1rem 0;border-bottom:1px solid #ddd}.cart-details-page tr:first-child{display:none}.cart-details-page .table td{display:block;padding:.65rem;border:0;min-width:0}.cart-details-page td:last-child{grid-column:2}.cart-details-page tr:last-child{display:block;background:#f6f6f6}.cart-details-page tr:last-child td:first-child{display:none}.cart-details-page .table td:nth-child(2)>p:first-child{font-size:1.1rem}}

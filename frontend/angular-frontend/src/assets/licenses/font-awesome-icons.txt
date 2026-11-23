@@ -1,0 +1,4 @@
+Cart shopping, plus and minus icons: Font Awesome Free 7.2.0 by Fonticons, Inc.
+https://fontawesome.com/
+SVG icons licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Original icon paths retained; rendered inline. See font-awesome-LICENSE.txt.

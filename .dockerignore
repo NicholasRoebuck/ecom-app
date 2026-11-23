@@ -1,0 +1,14 @@
+**/node_modules
+**/target
+**/dist
+**/.angular
+**/.git
+**/.idea
+.codex-design-backups
+**/src/main/resources/application.properties
+**/src/main/resources/application-local*
+**/*.p12
+**/*.key
+**/.env*
+**/ssl-localhost
+**/*.log

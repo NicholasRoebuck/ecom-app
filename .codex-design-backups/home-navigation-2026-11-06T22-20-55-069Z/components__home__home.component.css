@@ -1,0 +1,227 @@
+  :root{
+    --ink: #14151a;
+    --paper: #f4f2ec;
+    --hearing: #4c4fd9;
+    --hearing-deep: #2e2fa0;
+    --vision: #e8a33d;
+    --vision-deep: #b97620;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--ink);
+  }
+
+  .main-content {
+    min-height: auto;
+    padding-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--ink);
+  }
+
+  .intro {
+    text-align: center;
+    padding: .5rem 1.5rem 2.5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8f8fa8;
+    margin: 0 0 0.9rem;
+  }
+
+  h1 {
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    color: var(--paper);
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .sub {
+    color: #9d9cb0;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .split {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(820px, calc(100% - 2rem));
+    margin: 0 auto;
+    gap: 1.25rem;
+    min-height: 340px;
+  }
+
+  .split::after { display: none; }
+
+  .panel {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 340px;
+    border-radius: 20px;
+  }
+
+  .panel img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(35%) brightness(0.55);
+    transition: transform 0.6s ease, filter 0.6s ease;
+    z-index: -2;
+  }
+
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    transition: opacity 0.4s ease;
+  }
+
+  .panel--hearing::before { background: var(--hearing-deep); }
+  .panel--vision::before  { background: var(--vision-deep); }
+
+  .panel:hover img,
+  .panel:focus-visible img {
+    transform: scale(1.06);
+    filter: grayscale(10%) brightness(0.62);
+  }
+
+  .panel:hover::before,
+  .panel:focus-visible::before { opacity: 0.35; }
+
+  .panel:focus-visible {
+    outline: 2px solid var(--paper);
+    outline-offset: -6px;
+  }
+
+  .panel-copy {
+    position: relative;
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .panel-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.4rem;
+  }
+
+  .panel-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .panel-label h2 {
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 1.9rem;
+    color: var(--paper);
+    margin: 0;
+  }
+
+  .panel-copy p {
+    margin: 0;
+    color: #e4e2f0;
+    font-size: 0.95rem;
+    max-width: 26ch;
+  }
+
+  .panel-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--paper);
+    border-bottom: 1px solid rgba(244,242,236,0.4);
+    padding-bottom: 2px;
+  }
+
+  .panel-cta svg { transition: transform 0.25s ease; }
+  .panel:hover .panel-cta svg { transform: translateX(4px); }
+
+  @media (max-width: 700px) {
+    .split { grid-template-columns: 1fr; min-height: auto; max-width: 400px; }
+    .split::after {
+      top: auto; bottom: auto; left: 6%; right: 6%;
+      width: auto; height: 2px;
+      top: 50%; transform: translateY(-50%);
+      background: linear-gradient(to right, var(--hearing), var(--vision));
+    }
+    .panel { min-height: 320px; }
+  }
+/* Keep the Vision artwork directly on the page background. */
+.panel--vision {
+    background: transparent;
+    min-height: 480px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0 1.5rem;
+    border-radius: 0;
+}
+
+.panel--vision::before {
+    display: none;
+}
+
+.panel--vision .vision-brand-image,
+.panel--vision .vision-product-image {
+    position: static;
+    inset: auto;
+    height: auto;
+    object-fit: contain;
+    filter: none;
+    transform: none;
+    z-index: auto;
+}
+
+.panel--vision .vision-brand-image {
+    width: 150px;
+    aspect-ratio: 1;
+    clip-path: circle(43% at 50% 50%);
+}
+
+.panel--vision .vision-product-image {
+    width: 100%;
+}
+
+.panel--vision:hover img,
+.panel--vision:focus-visible img {
+    filter: none;
+    transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel--vision img {
+        transition: none;
+    }
+
+    .panel--vision:hover img,
+    .panel--vision:focus-visible img {
+        transform: none;
+    }
+}

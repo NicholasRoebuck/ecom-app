@@ -1,0 +1,26 @@
+# Build context: repository root. This image uses a disposable H2 database only.
+FROM node:20-bookworm-slim AS frontend
+WORKDIR /frontend
+COPY frontend/angular-frontend/package*.json ./
+RUN npm ci
+COPY frontend/angular-frontend/ ./
+ARG PREVIEW_AUTH0_DOMAIN
+ARG PREVIEW_AUTH0_CLIENT_ID
+ARG AUTH0_AUDIENCE
+ARG PREVIEW_STRIPE_PUBLISHABLE_KEY
+RUN node scripts/write-preview-environment.cjs && npm run build -- --configuration preview
+FROM eclipse-temurin:25-jdk-jammy AS backend
+WORKDIR /workspace
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY backend/spring-boot-website/.mvn .mvn
+COPY backend/spring-boot-website/mvnw backend/spring-boot-website/pom.xml ./
+COPY backend/spring-boot-website/src src
+COPY --from=frontend /frontend/dist/angular-frontend/browser /frontend-build
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw -B -Prender-preview -Dpreview.frontend.directory=/frontend-build -DskipTests package
+FROM eclipse-temurin:25-jre-jammy
+WORKDIR /app
+COPY --from=backend /workspace/target/render-preview-build/spring-boot-website-0.0.1-SNAPSHOT.jar /app/app.jar
+ENV JAVA_TOOL_OPTIONS="-Xms64m -Xmx192m -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=48m -XX:MaxDirectMemorySize=16m -Xss512k -XX:+UseSerialGC -XX:ActiveProcessorCount=1"
+USER 10001:10001
+EXPOSE 10000
+ENTRYPOINT ["java","-jar","/app/app.jar","--spring.profiles.active=render-preview"]

@@ -1,0 +1,65 @@
+.site-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+@media (max-width: 991px) {
+  .site-navbar {
+    height: auto;
+  }
+
+  .site-navbar-content {
+    height: auto !important;
+    min-height: 4rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-home {
+    order: 1;
+  }
+
+  .nav-account-actions {
+    order: 2;
+    flex: 0 0 auto;
+    gap: 0.75rem;
+    margin-left: auto;
+    padding: 0 0.25rem;
+  }
+
+  .nav-search-categories {
+    order: 3;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .nav-search-categories app-search {
+    flex: 0 1 400px;
+    max-width: 100%;
+  }
+
+  .nav-search-categories app-product-category-menu {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: center;
+    max-width: 100%;
+  }
+  box-shadow: none;
+  transition: box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-navbar.scrolled {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-navbar {
+    transition: none;
+  }
+}

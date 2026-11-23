@@ -16,6 +16,10 @@ public class ProductCategoryNavService {
         this.repository = repository;
     }
 
+    public List<ProductCategoryNavDTO> getAllCategories() {
+        return toNavDTOs(repository.findAll());
+    }
+
     public List<ProductCategoryNavDTO> getTopLevelCategories() {
         return toNavDTOs(repository.findByParentIsNull());
     }

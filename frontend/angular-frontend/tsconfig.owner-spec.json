@@ -1,0 +1,22 @@
+{
+    "extends":  "./tsconfig.spec.json",
+    "include":  [
+                    "src/app/components/product-list/product-list-variants.spec.ts",
+                    "src/app/services/pending-checkout.service.spec.ts",
+                    "src/app/services/auth-interceptor.service.spec.ts",
+                    "src/app/services/order-history.service.spec.ts",
+                    "src/app/components/order-history/order-history.component.spec.ts",
+                    "src/app/components/checkout/checkout.component.spec.ts",
+                    "src/app/components/cart-details/cart-details.component.spec.ts",
+                    "src/app/services/checkout.service.spec.ts",
+                    "src/**/*.d.ts",
+                    "src/app/components/product-details/product-details.component.spec.ts",
+                    "src/app/common/cart-item.spec.ts",
+                    "src/app/services/owner-access.service.spec.ts",
+                    "src/app/guards/owner.guard.spec.ts",
+                    "src/app/components/login-status/login-status.component.spec.ts",
+                    "src/app/components/admin/admin.component.spec.ts",
+                    "src/app/services/admin-product.service.spec.ts",
+                    "src/app/components/admin/variant-builder.spec.ts"
+                ]
+}

@@ -1,4 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { environment } from '../environments/environment';
+import { STORE_DEPARTMENTS } from './common/store-departments';
+import { DOCUMENT } from '@angular/common';
+import { focusHelpSection } from './components/help/help-navigation';
+import { Component, HostListener, inject } from '@angular/core';
+import { PendingCheckoutService } from './services/pending-checkout.service';
 import { Router, Scroll } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,10 +14,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  readonly isPreview = !!environment['preview'];
+  readonly storeDepartments = STORE_DEPARTMENTS;
+  private readonly document = inject(DOCUMENT);
   title = 'angular-frontend';
   isScrolled = false;
 
-  constructor(private router: Router, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router, private viewportScroller: ViewportScroller, pendingCheckout: PendingCheckoutService) {
+    pendingCheckout.start();
     this.viewportScroller.setHistoryScrollRestoration('manual');
     this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       if (!(event instanceof Scroll)) return;
@@ -21,6 +30,16 @@ export class AppComponent {
       } else if (this.router.lastSuccessfulNavigation?.extras.state?.['scrollToTop']) {
         this.viewportScroller.scrollToPosition([0, 0]);
       }
+    });
+  }
+
+  onHelpLinkClick(section: string): void {
+    if (this.router.url === '/help#' + section) focusHelpSection(this.document, section);
+  }
+
+  get isHelpPage(): boolean {
+    return this.router.isActive('/help', {
+      paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored'
     });
   }
 

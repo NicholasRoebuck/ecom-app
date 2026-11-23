@@ -1,32 +1,21 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { OrderHistory } from '../common/order-history';
 import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class OrderHistoryService {
-
-  private orderUrl = environment['premearAppApiUrl'] + '/orders';
-
-  constructor(private httpClient: HttpClient) { }
-
-
-  getOrderHistory(email: string): Observable<GetResponseOrderHistory>{
-
-    // create url based on customer email
-    const orderHistoryEmail = `${this.orderUrl}/search/findByCustomerEmailOrderByDateCreatedDesc?email=${email}`;
-
-    return this.httpClient.get<GetResponseOrderHistory>(orderHistoryEmail);
-  }
-
-
+export interface OrderHistoryResponse {
+  content: OrderHistory[];
+  page: {size: number; totalElements: number; totalPages: number; number: number};
 }
 
-interface GetResponseOrderHistory{
-  _embedded: {
-    orders: OrderHistory[];
+@Injectable({ providedIn: 'root' })
+export class OrderHistoryService {
+  private orderUrl = environment['premearAppApiUrl'] + '/me/orders';
+  constructor(private http: HttpClient) {}
+
+  getOrderHistory(page = 0, size = 20) {
+    return this.http.get<OrderHistoryResponse>(this.orderUrl, {
+      params: new HttpParams().set('page', page).set('size', size)
+    });
   }
 }

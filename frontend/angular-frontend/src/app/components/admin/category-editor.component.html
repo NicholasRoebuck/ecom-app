@@ -1,0 +1,40 @@
+<details class="category-manager">
+  <summary>Manage departments</summary>
+  <div class="department-picker">
+    <label for="managed-department">Choose a department</label>
+    <select id="managed-department" [value]="selectedDepartmentId ?? ''" (change)="selectDepartment($event)" [disabled]="busy">
+      <option value="">Select a department</option>
+      <option *ngFor="let department of departments" [value]="department.id" [selected]="selectedDepartmentId === department.id">{{ department.name }}</option>
+    </select>
+  </div>
+  <ng-container *ngIf="selectedDepartment as department">
+    <div class="department-heading"><h2>Managing <strong>{{ department.name }}</strong></h2>
+      <button *ngIf="!open" type="button" (click)="edit(department)" [disabled]="busy">Rename department</button>
+    </div>
+    <p *ngIf="notice" class="notice" role="status">{{ notice }}</p>
+    <ng-container *ngIf="!open">
+      <div class="category-heading"><h3>Categories</h3><button type="button" class="admin-button" (click)="edit(null)" [disabled]="busy">Add category</button></div>
+      <p *ngIf="error" class="error-box" role="alert">{{ error }}</p>
+      <ul><li *ngFor="let category of departmentCategories">
+        <div class="category-info"><span>{{ label(category) }}</span><small *ngIf="deletionReason(category)">{{ deletionReason(category) }}</small></div>
+        <div class="category-row-actions">
+          <button type="button" (click)="edit(category)" [disabled]="busy" [attr.aria-label]="'Rename ' + label(category)">Rename</button>
+          <button type="button" (click)="edit(null, category)" [disabled]="busy" [attr.aria-label]="'Add subcategory under ' + label(category)">Add subcategory</button>
+          <button type="button" class="delete-category" (click)="deleteCategory(category)" [disabled]="busy || !!deletionReason(category)" [attr.aria-label]="'Delete ' + label(category)" [attr.title]="deletionReason(category) || 'Delete empty category'">Delete</button>
+        </div>
+      </li></ul>
+      <p *ngIf="!departmentCategories.length">This department has no categories yet.</p>
+    </ng-container>
+    <form *ngIf="open" [formGroup]="form" (ngSubmit)="save()">
+      <h3>{{ current ? (current.parentId === null ? 'Rename department' : 'Rename category') : 'Add category' }}</h3>
+      <p *ngIf="!current && createParent">Under <strong>{{ label(createParent) }}</strong></p>
+      <fieldset [disabled]="busy"><legend class="visually-hidden">Category details</legend>
+        <label for="category-name">{{ current && current.parentId === null ? 'Department name' : 'Category name' }}</label>
+        <input id="category-name" formControlName="name" maxlength="255" required>
+        <p *ngIf="error" class="error-box" role="alert">{{ error }}</p>
+        <div class="category-actions"><button type="submit" class="admin-button">{{ busy ? 'Saving...' : 'Save changes' }}</button><button type="button" (click)="cancel()">Cancel</button></div>
+      </fieldset>
+    </form>
+  </ng-container>
+  <p *ngIf="!departments.length">No departments are available. Try reloading categories.</p>
+</details>

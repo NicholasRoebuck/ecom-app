@@ -26,6 +26,15 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "variant_id")
+    private Long variantId;
+
+    @Column(name = "sku")
+    private String sku;
+
+    @Column(name = "product_name", columnDefinition = "TEXT")
+    private String productName;
+
     @Column(name = "product_id")
     private Long productId;
 

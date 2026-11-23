@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.css",
+      "backup": "app.component.css",
+      "sha256": "3a49a3d12aab02c384d50ab824e2f43f889d9f8ba65b127f90e07b9b8a2fec1d"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/app.component.html",
+      "backup": "app.component.html",
+      "sha256": "388f505bcb1aa59252220b8e9f9e493a2a1d51777bddd26ef84805facce4d181"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.css",
+      "backup": "components__home__home.component.css",
+      "sha256": "7e936e06d75d3d00d3b5462165cc9d613ad7b4f674728d2474997e8aaf034486"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/home/home.component.html",
+      "backup": "components__home__home.component.html",
+      "sha256": "e410181c2904dca4d4de2ef09d5c30ac1602601ae9ab1aaabddab876ec4fc192"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-category-menu/product-category-menu.component.css",
+      "backup": "components__product-category-menu__product-category-menu.component.css",
+      "sha256": "01fee57e7a9380d1546229982b9752735f9d52607c727f264f2e718b1fe13f96"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.css",
+      "backup": "components__search__search.component.css",
+      "sha256": "04632309bba213cf13eca07945c7ca4ea83d7521ec0e1ecf24c9dec397d950c9"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/search/search.component.html",
+      "backup": "components__search__search.component.html",
+      "sha256": "e718ddd66b0d491524e131afb6303bbfe9c13ed1d80ddf7c2156327a360a724f"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/login-status/login-status.component.css",
+      "backup": "components__login-status__login-status.component.css",
+      "sha256": "7fff36f3aaad0cc9bd0bee5bbe935e7d0a5c4c2e30d6a28088499173499ebbc3"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-status/cart-status.component.css",
+      "backup": "components__cart-status__cart-status.component.css",
+      "sha256": "5855c506c43dca28ec1637ab4a5fbb2a1aaa5553036e443d9049004325d30342"
+    }
+  ]
+}

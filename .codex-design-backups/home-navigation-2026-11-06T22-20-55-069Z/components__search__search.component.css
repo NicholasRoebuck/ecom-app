@@ -1,0 +1,13 @@
+@media (max-width: 991px) {
+    :host,
+    .form-header {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .search-input {
+        width: 0;
+        min-width: 0;
+        flex: 1 1 0;
+    }
+}

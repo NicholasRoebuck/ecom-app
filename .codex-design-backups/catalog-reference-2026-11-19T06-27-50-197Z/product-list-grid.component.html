@@ -1,0 +1,93 @@
+<main class="product-list-page">
+  <header class="collection-header">
+    <nav class="collection-breadcrumbs" aria-label="Breadcrumb">
+      <a routerLink="/home">Home</a><span aria-hidden="true">/</span>
+      <a *ngIf="currentCategoryId !== null || searchMode; else shopLabel" routerLink="/products">Shop</a>
+      <ng-template #shopLabel><span aria-current="page">Shop</span></ng-template>
+      <ng-container *ngIf="currentCategoryId !== null || searchMode"><span aria-hidden="true">/</span><span aria-current="page">{{ searchMode ? 'Search' : categoryName }}</span></ng-container>
+    </nav>
+    <p class="collection-eyebrow">Find your fit</p>
+    <h1>{{ collectionTitle }}</h1>
+    <p class="collection-description">{{ collectionDescription }}</p>
+  </header>
+
+  <div class="catalog-layout">
+    <aside class="catalog-filters" [class.is-open]="filtersOpen" aria-label="Product filters">
+      <button type="button" class="filters-toggle" [attr.aria-expanded]="filtersOpen" aria-controls="catalog-filter-controls" (click)="filtersOpen = !filtersOpen">Filters{{ hasFilters ? ' (' + activeFilterCount + ')' : '' }} <span aria-hidden="true">&#9662;</span></button>
+      <div class="filter-body" id="catalog-filter-controls">
+        <h2>Filter products</h2>
+        <form class="price-filters" (submit)="applyPrices($event)" novalidate>
+          <fieldset><legend>Price (USD)</legend>
+            <label for="filter-min-price">Minimum</label>
+            <input id="filter-min-price" type="number" min="0" max="99999999.99" step="0.01" inputmode="decimal" #minPrice [value]="minPriceInput" (input)="minPriceInput = minPrice.value" [attr.aria-invalid]="filterValidationError ? 'true' : null" [attr.aria-describedby]="filterValidationError ? 'filter-price-error' : null">
+            <label for="filter-max-price">Maximum</label>
+            <input id="filter-max-price" type="number" min="0" max="99999999.99" step="0.01" inputmode="decimal" #maxPrice [value]="maxPriceInput" (input)="maxPriceInput = maxPrice.value" [attr.aria-invalid]="filterValidationError ? 'true' : null" [attr.aria-describedby]="filterValidationError ? 'filter-price-error' : null">
+            <p *ngIf="filterValidationError" id="filter-price-error" class="filter-error" role="alert">{{ filterValidationError }}</p>
+            <button type="submit" class="filter-apply">Apply price</button>
+          </fieldset>
+        </form>
+        <fieldset class="stock-filter"><legend>Availability</legend>
+          <label><input type="checkbox" #stock [checked]="filters.inStock" (change)="setStock(stock.checked)"> In stock only</label>
+        </fieldset>
+        <p *ngIf="filterOptionsLoading" class="filter-status" role="status">Loading product options...</p>
+        <div *ngIf="filterOptionsError" class="filter-error" role="alert">{{ filterOptionsError }} <button type="button" (click)="loadFilterOptions(true)">Retry</button></div>
+        <div class="option-filter" *ngFor="let option of filterOptions; let index = index">
+          <label [for]="'filter-option-' + index">{{ option.name }}</label>
+          <select [id]="'filter-option-' + index" #optionSelect [value]="filters.options[option.name] || ''" (change)="setOption(option.name, optionSelect.value)">
+            <option value="" [selected]="!filters.options[option.name]">Any {{ option.name }}</option><option *ngFor="let value of option.values" [value]="value" [selected]="filters.options[option.name] === value">{{ value }}</option>
+          </select>
+        </div>
+        <button type="button" class="filter-clear" (click)="clearFilters()">Clear all filters</button>
+      </div>
+    </aside>
+  <section class="catalog-results" aria-label="Product collection">
+    <div *ngIf="hasFilters" class="active-filter-summary">{{ activeFilterCount }} {{ activeFilterCount === 1 ? 'filter' : 'filters' }} applied <button type="button" (click)="clearFilters()">Clear all</button></div>
+    <div class="catalog-toolbar">
+      <p class="catalog-count" role="status">{{ loading ? 'Loading products...' : totalElements ? firstResult + '-' + lastResult + ' of ' + totalElements + ' products' : '0 products' }}</p>
+      <div class="catalog-controls">
+        <label *ngIf="!searchMode && categories.length" class="catalog-control" for="catalog-category">
+          <span>Category</span>
+          <select id="catalog-category" #categorySelect (change)="browseCategory(categorySelect.value)">
+            <option value="" [selected]="currentCategoryId === null">All products</option>
+            <option *ngFor="let category of categories" [value]="category.id" [selected]="currentCategoryId === category.id">{{ category.categoryName }}</option>
+          </select>
+        </label>
+        <label class="catalog-control" for="catalog-sort"><span>Sort by</span>
+          <select id="catalog-sort" #sortSelect [value]="sortOrder" (change)="changeSort(sortSelect.value)">
+            <option value="catalog">Catalog order</option><option value="name">Name: A-Z</option>
+            <option value="name-desc">Name: Z-A</option><option value="newest">Newest first</option>
+          </select>
+        </label>
+        <label class="catalog-control" for="catalog-size"><span>Show</span>
+          <select id="catalog-size" #sizeSelect [value]="pageSize" (change)="updatePageSize(sizeSelect.value)">
+            <option value="12">12</option><option value="24">24</option><option value="48">48</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="catalog-message" role="alert"><p>{{ error }}</p><button type="button" class="product-add-button" (click)="listProduct()">Try again</button></div>
+    <div *ngIf="!loading && !error" class="product-grid">
+      <article *ngFor="let product of products" class="product-card">
+        <a [routerLink]="['/products', product.id]" class="product-image-link">
+          <img *ngIf="displayVariant(product)?.imageUrl; else missingImage" [src]="displayVariant(product)?.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
+          <ng-template #missingImage><span class="product-image-placeholder">Image coming soon</span></ng-template>
+        </a>
+        <div class="product-card-content">
+          <p class="product-variation-count">{{ product.variants.length > 1 ? product.variants.length + ' variations' : 'Single variation' }}</p>
+          <a [routerLink]="['/products', product.id]" class="product-name-link"><h2 class="product-name">{{ product.name }}</h2></a>
+          <p *ngIf="shortDescription(product)" class="product-excerpt">{{ shortDescription(product) }}</p>
+          <p class="product-price"><span *ngIf="hasPriceRange(product)" class="price-prefix">From </span>{{ minimumPrice(product) !== null ? (minimumPrice(product) | currency:'USD') : 'Unavailable' }}</p>
+          <a *ngIf="product.variants.length > 1" [routerLink]="['/products', product.id]" class="product-add-button">Choose options <span aria-hidden="true">&#8594;</span></a>
+          <button *ngIf="product.variants.length <= 1" type="button" (click)="addToCart(product)" class="product-add-button" [disabled]="!displayVariant(product)?.active || !(displayVariant(product)?.unitsInStock > 0)">{{ displayVariant(product)?.active && displayVariant(product)?.unitsInStock > 0 ? 'Add to cart' : 'Unavailable' }}</button>
+        </div>
+      </article>
+      <div *ngIf="!products.length" class="catalog-message"><h2>{{ hasFilters ? 'No products match these filters' : 'No products found' }}</h2><p>{{ hasFilters ? 'Adjust your filters or clear them to see more products.' : 'Try another category or search term.' }}</p><button *ngIf="hasFilters" type="button" class="product-add-button" (click)="clearFilters()">Clear filters</button><a *ngIf="!hasFilters" routerLink="/products">Browse all products</a></div>
+    </div>
+    <nav *ngIf="!loading && !error && totalElements > pageSize" class="product-list-pagination" aria-label="Product pages">
+      <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="3" [boundaryLinks]="true"
+        [collectionSize]="totalElements" (pageChange)="listProduct()"></ngb-pagination>
+    </nav>
+  </section>
+  </div>
+</main>

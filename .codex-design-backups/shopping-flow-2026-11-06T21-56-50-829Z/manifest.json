@@ -1,0 +1,20 @@
+{
+  "description": "Before boutique shopping flow CSS",
+  "files": [
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-details/product-details.component.css",
+      "backup": "product-details.component.css",
+      "sha256": "348e87b2a289986f46e40a7eef3e4ed9e10d7d4518a16119d0d4bddc3e677cbc"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/cart-details/cart-details.component.css",
+      "backup": "cart-details.component.css",
+      "sha256": "3ce584bcea674a356b22d2259d009935c184030db02a994a24baf42bb55dc7b0"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/checkout/checkout.component.css",
+      "backup": "checkout.component.css",
+      "sha256": "617d1e1e02e597cdefa97956939bb83304699b31e1735660b029bd9dacc01dbe"
+    }
+  ]
+}

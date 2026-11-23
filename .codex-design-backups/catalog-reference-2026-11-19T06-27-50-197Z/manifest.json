@@ -1,0 +1,9 @@
+{
+  "source": "frontend/angular-frontend/src/app/components/product-list",
+  "files": [
+    "product-list.component.css",
+    "product-catalog.css",
+    "product-filters.css",
+    "product-list-grid.component.html"
+  ]
+}

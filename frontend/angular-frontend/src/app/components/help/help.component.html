@@ -1,0 +1,49 @@
+<main class="help-page" aria-labelledby="help-page-title">
+  <nav class="help-breadcrumbs" aria-label="Breadcrumb"><a routerLink="/home">Home</a><span aria-hidden="true">/</span><span aria-current="page">Help &amp; About</span></nav>
+  <header class="help-header">
+    <p class="help-eyebrow">PremEAR Hearing &amp; Vision</p>
+    <h1 id="help-page-title" tabindex="-1">Help &amp; About</h1>
+    <p>About PremEAR, ways to get in touch, and help with your order.</p>
+  </header>
+  <nav class="help-sections" aria-label="On this page">
+    <a routerLink="/help" fragment="about" (click)="repeatSection('about')">About Us</a>
+    <a routerLink="/help" fragment="contact" (click)="repeatSection('contact')">Contact Us</a>
+    <a routerLink="/help" fragment="help" (click)="repeatSection('help')">Help</a>
+  </nav>
+  <p class="placeholder-note">The information below is placeholder copy. Business details and policies will be added here.</p>
+
+  <section class="help-section" aria-labelledby="about">
+    <h2 id="about" tabindex="-1">About Us</h2>
+    <div class="about-copy">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae neque vel nibh vestibulum consequat. Aenean sit amet ante at lorem facilisis dignissim.</p>
+      <p>Praesent commodo, sapien vitae tincidunt interdum, arcu neque consequat erat, eu tincidunt justo tellus at neque. Donec a mauris eu erat feugiat pellentesque.</p>
+    </div>
+    <div class="about-departments">
+      <div><h3>Hearing</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada nibh non tellus posuere, sed varius arcu tincidunt.</p></div>
+      <div><h3>Vision</h3><p>Integer feugiat, justo quis tincidunt malesuada, felis neque posuere nunc, vitae consectetur quam velit at lorem.</p></div>
+    </div>
+  </section>
+
+  <section class="help-section" aria-labelledby="contact">
+    <h2 id="contact" tabindex="-1">Contact Us</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tincidunt lorem ut sapien volutpat, sit amet feugiat urna placerat.</p>
+    <dl class="contact-details">
+      <div><dt>Email</dt><dd>Email address to be added.</dd></div>
+      <div><dt>Phone</dt><dd>Phone number to be added.</dd></div>
+      <div><dt>Hours</dt><dd>Business hours to be added.</dd></div>
+      <div><dt>Location</dt><dd>Address or service area to be added.</dd></div>
+    </dl>
+  </section>
+
+  <section class="help-section" aria-labelledby="help">
+    <h2 id="help" tabindex="-1">Help</h2>
+    <p>Information about shopping with PremEAR.</p>
+    <div class="help-faqs">
+      <details *ngFor="let question of faqs">
+        <summary>{{ question }}</summary>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, neque quis laoreet consequat, libero lacus tincidunt lorem, ac tincidunt sapien erat vitae justo. Details to be added.</p>
+      </details>
+    </div>
+    <a routerLink="/help" fragment="contact" (click)="repeatSection('contact')" class="contact-link">Contact Us <span aria-hidden="true">&#8594;</span></a>
+  </section>
+</main>

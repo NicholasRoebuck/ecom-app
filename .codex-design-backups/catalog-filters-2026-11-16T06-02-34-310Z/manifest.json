@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "file": "backend/spring-boot-website/src/main/java/com/nickcoding/spring_boot_website/controller/ProductController.java",
+      "backup": "backend__spring-boot-website__src__main__java__com__nickcoding__spring_boot_website__controller__ProductController.java",
+      "sha256": "bf5914b0e47fbaf5bd6c66db76979d026618a67f84a1a18c3213a6115fba4218"
+    },
+    {
+      "file": "backend/spring-boot-website/src/main/java/com/nickcoding/spring_boot_website/service/ProductQueryService.java",
+      "backup": "backend__spring-boot-website__src__main__java__com__nickcoding__spring_boot_website__service__ProductQueryService.java",
+      "sha256": "7594776665a9e8fb8ef3b0b1ab1ef7105a3fa958a4f4c0ca675e94d87bd842ad"
+    },
+    {
+      "file": "backend/spring-boot-website/src/main/java/com/nickcoding/spring_boot_website/dao/ProductRepository.java",
+      "backup": "backend__spring-boot-website__src__main__java__com__nickcoding__spring_boot_website__dao__ProductRepository.java",
+      "sha256": "e30c5cb5fe8bf8cbdee4d905896f31b3724458862d99d64307251d03cb9cc760"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/services/product.service.ts",
+      "backup": "frontend__angular-frontend__src__app__services__product.service.ts",
+      "sha256": "5bf7df9c0d5eadcbfec1cf3389fd68773b63ea3dc8ac9037b2de24f79540966c"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list.component.ts",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-list.component.ts",
+      "sha256": "1a343841c3f762be239d5611d0c3a97a81bfce228d1f830b4cb8e7048545c316"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list-grid.component.html",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-list-grid.component.html",
+      "sha256": "ebe6514a8e2f8546ba53944974525663d26b08920992df2d401b49cc292d0f43"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-list.component.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-list.component.css",
+      "sha256": "be13a136a576b9dba8c68dca93ec1df0ce96f0189c2bb1af9e12688e8ecb7d36"
+    },
+    {
+      "file": "frontend/angular-frontend/src/app/components/product-list/product-catalog.css",
+      "backup": "frontend__angular-frontend__src__app__components__product-list__product-catalog.css",
+      "sha256": "ec13cbab9e96f0362a6a264d842d7100f4ebc4a178e0159f71bb1ec54f5d0f4c"
+    }
+  ]
+}

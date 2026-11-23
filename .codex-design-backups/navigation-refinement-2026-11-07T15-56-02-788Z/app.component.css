@@ -1,0 +1,14 @@
+:host{display:block;background:#fbfaf6;color:#202c26}.page-wrapper{background:#fbfaf6;padding-bottom:0}
+.contact-strip{display:flex;justify-content:center;align-items:center;min-height:32px;padding:.4rem 1rem;background:#294438;color:#f5f4ec;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase}
+.site-navbar{position:sticky;top:0;z-index:50;height:auto;background:#fbfaf6!important;border-bottom:1px solid #d9ddd2;transition:box-shadow 180ms ease}
+.site-navbar-content{display:flex;align-items:center;flex-wrap:wrap;height:auto;min-height:92px;max-width:1440px;margin:auto;padding:1rem clamp(1rem,3vw,3rem);gap:1rem 2rem}
+.nav-home{flex:0 0 auto}.brand-wordmark{display:flex;flex-direction:column;color:#202c26;text-decoration:none;font-family:Georgia,'Times New Roman',serif;font-size:2rem;line-height:1.1;letter-spacing:-.05em}.brand-wordmark span{font-family:Arial,sans-serif;font-size:.55rem;letter-spacing:.17em;text-transform:uppercase;margin-top:.45rem}
+.nav-search-categories{display:flex;flex:1 1 500px;flex-wrap:wrap;align-items:center;justify-content:center;gap:.85rem 1.5rem;min-width:0;padding:0}.nav-search-categories app-search{flex:1 1 220px;max-width:320px;min-width:0}.nav-search-categories app-product-category-menu{flex:0 1 auto;min-width:0}
+.nav-account-actions{display:flex;align-items:center;gap:1.25rem;margin-left:auto;padding:0;max-width:100%;min-width:0}.site-navbar.scrolled{box-shadow:0 4px 16px #202c2610}
+:host ::ng-deep .site-navbar .pill-button{width:auto;min-height:40px;height:auto;padding:.5rem .85rem;border:1px solid #cbd1c4;border-radius:4px;background:#fbfaf6;background-image:none;color:#294438;font-family:inherit;font-size:.75rem;box-shadow:none;transform:none;transition:background 160ms ease}
+:host ::ng-deep .site-navbar .pill-button:hover,:host ::ng-deep .site-navbar .pill-button:active{background:#edf1e9;background-image:none;box-shadow:none;transform:none;color:#202c26}
+:host ::ng-deep .site-navbar .pill-button:focus-visible,.brand-wordmark:focus-visible{outline:2px solid #294438;outline-offset:4px}
+footer{padding:2rem 1rem;background:#f0f1e9;border-top:1px solid #d9ddd2}footer ul{display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;margin:0;padding:0;list-style:none}footer a{color:#62685f;font-size:.8rem;text-decoration:none}footer a:hover{text-decoration:underline}
+@media(max-width:1050px){.nav-home{order:1}.nav-account-actions{order:2}.nav-search-categories{order:3;flex:1 1 100%}.site-navbar-content{gap:1rem;padding:1rem}.nav-search-categories app-search{max-width:400px}}
+@media(max-width:600px){.brand-wordmark{font-size:1.65rem}.nav-account-actions{gap:.8rem;flex:1 1 auto;justify-content:flex-end}.nav-search-categories{gap:.8rem}.nav-search-categories app-product-category-menu{flex:1 1 100%}.nav-search-categories app-search{max-width:100%;flex:1 1 100%}}
+@media(prefers-reduced-motion:reduce){.site-navbar,:host ::ng-deep .site-navbar .pill-button{transition:none}}

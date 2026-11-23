@@ -15,6 +15,7 @@ import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 @Configuration
+@org.springframework.context.annotation.Profile("!render-smoke")
 public class SecurityConfiguration {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
@@ -24,15 +25,19 @@ public class SecurityConfiguration {
     private String audience;
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http, JwtDecoder decoder, OwnerAccess ownerAccess) throws Exception {
 
         http.authorizeHttpRequests(requests ->
                         requests
-                                .requestMatchers("/api/orders/**")
+                                .requestMatchers("/api/orders", "/api/orders/**", "/api/customers", "/api/customers/**", "/api/addresses", "/api/addresses/**", "/api/orderItems", "/api/orderItems/**", "/api/order-items", "/api/order-items/**")
+                                .denyAll()
+                                .requestMatchers("/api/admin", "/api/admin/**")
+                                .access(ownerAccess)
+                                .requestMatchers("/api/me/**")
                                 .authenticated()
                                 .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2ResourceServer ->
-                        oauth2ResourceServer.jwt(jwt -> jwt.decoder(jwtDecoder())));
+                        oauth2ResourceServer.jwt(jwt -> jwt.decoder(decoder)));
 
         http.cors(Customizer.withDefaults());
 
@@ -42,7 +47,11 @@ public class SecurityConfiguration {
                 exceptionHandling.authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setContentType("application/json");
-                    response.getWriter().write("{\"error\": \"unauthorized\", \"message\": \"" + authException.getMessage() + "\"}");
+                    response.getWriter().write("{\"error\":\"unauthorized\",\"message\":\"Authentication is required.\"}");
+                }).accessDeniedHandler((request, response, exception) -> {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"forbidden\",\"message\":\"Access denied.\"}");
                 }));
 
         http.csrf(AbstractHttpConfigurer::disable);

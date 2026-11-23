@@ -1,0 +1,8 @@
+target
+.git
+.idea
+src/main/resources/application.properties
+src/main/resources/application-local*
+**/*.p12
+**/*.key
+**/.env*

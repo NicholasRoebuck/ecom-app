@@ -1,22 +1,100 @@
-<div class="detail-section">
+<main class="product-details-page">
+    <div class="product-details-container">
+        <a routerLink="/products/" class="back-to-products">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="m12 5-7 7 7 7M5 12h14" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Return to product list
+        </a>
 
-    <div class="container-fluid">
+        <article *ngIf="product as current; else loading" class="product-details-layout" aria-labelledby="product-title">
+            <div class="product-image-frame">
+                <img *ngIf="displayVariant()?.imageUrl as imageUrl; else noImage"
+                     [src]="imageUrl" [alt]="current.name" class="product-detail-image">
+                <ng-template #noImage><span class="image-placeholder">Image unavailable</span></ng-template>
+            </div>
 
-        <!-- there is type error for the undefined product property in my product-details.ts file.-->
-         <!-- i think this is due to a race condition-->
-        <!-- working on a permanent solution for this bug, but for now i'm using *ngIf statments to prevent the browser console log errors -->
-        
-        <img *ngIf="product" src="{{ displayVariant()?.imageUrl }}" class="detail-img">
+            <div class="product-information">
+                <p class="product-eyebrow">Product details</p>
+                <h1 id="product-title">{{ current.name }}</h1>
 
-        <h3 *ngIf="product"> {{ product.name }}</h3>
-        <div *ngIf="product" class="price"> {{ displayVariant()?.unitPrice  | currency:'USD'}} </div>
-        <button (click)="addTocart()" class="btn btn-primary btn-sm">Add to cart</button>
+                <ng-container *ngIf="displayVariant() as variant; else unavailable">
+                    <p class="product-detail-price"><span *ngIf="!selectedVariant && current.variants.length > 1">From </span>{{ displayedPrice | currency:'USD' }}</p>
 
-        <hr>
-        <h4>Description</h4>
-        <p *ngIf="product">{{ product.description}}</p>
+                    <div *ngIf="options.length || useVariantDropdown" class="product-options">
+                        <div *ngFor="let option of options; let index = index" class="product-option">
+                            <label [for]="'product-option-' + index">{{ option.name }}</label>
+                            <select [id]="'product-option-' + index"
+                                    (change)="selectOption(index, $event)"
+                                    [disabled]="index > 0 && !selectedOptions[options[index - 1].name]">
+                                <option value="" [selected]="!selectedOptions[option.name]">Choose {{ option.name }}</option>
+                                <option *ngFor="let value of option.values" [value]="value" [selected]="selectedOptions[option.name] === value"
+                                        [disabled]="!isOptionAvailable(index, value)">
+                                    {{ value }}{{ isOptionAvailable(index, value) ? '' : ' — unavailable' }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="useVariantDropdown" class="product-option">
+                            <label for="product-variation">Variation</label>
+                            <select id="product-variation" (change)="selectVariant($event)">
+                                <option value="" [selected]="!selectedVariant">Choose a variation</option>
+                                <option *ngFor="let item of current.variants; let index = index" [value]="item.id" [selected]="selectedVariant?.id === item.id"
+                                        [disabled]="!item.active || item.unitsInStock <= 0">
+                                    {{ variantDescription(item, index) }}{{ item.active && item.unitsInStock > 0 ? '' : ' — unavailable' }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+<p class="product-availability" aria-live="polite">
+                        <span class="availability-dot" [class.unavailable]="!canAddToCart" aria-hidden="true"></span>
+                        {{ availabilityText }}
+                    </p>
+                    <button type="button" class="product-detail-add"
+                            (click)="addTocart()" [disabled]="!canAddToCart">
+                        Add to cart
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </ng-container>
+                <ng-template #unavailable>
 
-        <a routerLink="/products/" class="mt-5">Return to product list</a>
+                    <div *ngIf="options.length || useVariantDropdown" class="product-options">
+                        <div *ngFor="let option of options; let index = index" class="product-option">
+                            <label [for]="'product-option-' + index">{{ option.name }}</label>
+                            <select [id]="'product-option-' + index"
+                                    (change)="selectOption(index, $event)"
+                                    [disabled]="index > 0 && !selectedOptions[options[index - 1].name]">
+                                <option value="" [selected]="!selectedOptions[option.name]">Choose {{ option.name }}</option>
+                                <option *ngFor="let value of option.values" [value]="value" [selected]="selectedOptions[option.name] === value"
+                                        [disabled]="!isOptionAvailable(index, value)">
+                                    {{ value }}{{ isOptionAvailable(index, value) ? '' : ' — unavailable' }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="useVariantDropdown" class="product-option">
+                            <label for="product-variation">Variation</label>
+                            <select id="product-variation" (change)="selectVariant($event)">
+                                <option value="" [selected]="!selectedVariant">Choose a variation</option>
+                                <option *ngFor="let item of current.variants; let index = index" [value]="item.id" [selected]="selectedVariant?.id === item.id"
+                                        [disabled]="!item.active || item.unitsInStock <= 0">
+                                    {{ variantDescription(item, index) }}{{ item.active && item.unitsInStock > 0 ? '' : ' — unavailable' }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+<p class="product-availability" aria-live="polite">Currently unavailable</p>
+                </ng-template>
 
+                <section class="product-description" aria-labelledby="description-title">
+                    <h2 id="description-title">Description</h2>
+                    <p>{{ current.description || 'No description available for this product.' }}</p>
+                </section>
+            </div>
+        </article>
+
+        <ng-template #loading>
+            <p class="product-loading" role="status">{{ error || 'Loading product details…' }}</p>
+        </ng-template>
     </div>
-</div>
+</main>

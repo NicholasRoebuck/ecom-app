@@ -1,0 +1,15 @@
+# Backend-only capacity test. No MySQL account or Stripe keys required.
+FROM eclipse-temurin:25-jdk-jammy AS build
+WORKDIR /workspace
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+COPY src src
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw -B -Prender-smoke -DskipTests package
+FROM eclipse-temurin:25-jre-jammy
+WORKDIR /app
+COPY --from=build /workspace/target/render-smoke-build/spring-boot-website-0.0.1-SNAPSHOT.jar /app/app.jar
+ENV JAVA_TOOL_OPTIONS="-Xms64m -Xmx192m -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=48m -XX:MaxDirectMemorySize=16m -Xss512k -XX:+UseSerialGC -XX:ActiveProcessorCount=1"
+USER 10001:10001
+EXPOSE 10000
+ENTRYPOINT ["java", "-jar", "/app/app.jar", "--spring.profiles.active=render-smoke"]

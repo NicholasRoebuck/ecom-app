@@ -21,3 +21,14 @@
     background-color: #292929;
     border-color: #292929;
 }
+.payment-confirmation {
+    scroll-margin-top: 12rem;
+}
+
+.checkout-review {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid currentColor;
+}
+
+.checkout-review p { margin-bottom: 0; }

@@ -19,6 +19,9 @@ public class ProductCategoryNavController {
         this.service = service;
     }
 
+    @GetMapping("/all")
+    public List<ProductCategoryNavDTO> getAll() { return service.getAllCategories(); }
+
     @GetMapping("/top-level")
     public List<ProductCategoryNavDTO> getTopLevel() {
         return service.getTopLevelCategories();

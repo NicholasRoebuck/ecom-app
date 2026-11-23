@@ -1,0 +1,20 @@
+.cart-details-page {
+    font-family: 'Changa', sans-serif;
+    font-size: 1.1rem;
+}
+
+.cart-details-page .cart-table-header {
+    background-color: #000;
+    color: #fff;
+}
+
+.cart-details-page .btn-primary {
+    background-color: #000;
+    border-color: #000;
+}
+
+.cart-details-page .btn-primary:hover,
+.cart-details-page .btn-primary:focus {
+    background-color: #292929;
+    border-color: #292929;
+}

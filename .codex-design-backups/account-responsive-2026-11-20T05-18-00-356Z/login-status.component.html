@@ -1,0 +1,17 @@
+<div class="login-status-header">
+
+    <div *ngIf="isAuthenticated" class="login-status-user-info">
+        Welcome back {{ userEmail }}!
+    </div>
+
+    <button *ngIf="!isAuthenticated" (click)="login()" class="pill-button">Login</button>
+
+    <button *ngIf="isAuthenticated" (click)="logout()" class="pill-button">Logout</button>
+
+    <button *ngIf="isAuthenticated" routerLink="/members" class="pill-button">Member</button>
+
+    <button *ngIf="isAuthenticated && (ownerAccess.isOwner$ | async)" routerLink="/admin" class="pill-button">Admin</button>
+
+    <button *ngIf="isAuthenticated" routerLink="/order-history" class="pill-button">Orders</button>
+
+</div>

@@ -6,6 +6,7 @@ export class ProductVariant {
     public unitPrice: number,
     public imageUrl: string,
     public active: boolean,
-    public unitsInStock: number) {
+    public unitsInStock: number,
+    public options: Record<string, string> = {}) {
     }
 }

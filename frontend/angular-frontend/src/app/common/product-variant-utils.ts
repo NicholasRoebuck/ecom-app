@@ -12,3 +12,7 @@ export function getDisplayVariant(product: Product): ProductVariant | undefined 
         ? product.variants[0]
         : undefined;
 }
+export function variantLabel(options: Record<string, string> = {}): string {
+    return Object.entries(options).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
+        .map(([name, value]) => name + ': ' + value).join(', ');
+}

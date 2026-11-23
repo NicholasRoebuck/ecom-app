@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.spec.json",
+  "include": [
+    "src/app/services/pending-checkout.service.spec.ts",
+    "src/app/services/auth-interceptor.service.spec.ts",
+    "src/app/services/order-history.service.spec.ts",
+    "src/app/components/order-history/order-history.component.spec.ts",
+    "src/app/components/checkout/checkout.component.spec.ts",
+    "src/app/components/cart-details/cart-details.component.spec.ts",
+    "src/app/services/checkout.service.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
